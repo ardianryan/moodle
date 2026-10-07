@@ -7,8 +7,13 @@
             <!-- Col 1: Identity & Socials -->
             <div class="scholargate-footer-col brand-col">
                 <div class="footer-logo-row">
-                    <img src="{{{ config.wwwroot }}}/pix/logo_smage.png" alt="SMAN 1 Gedeg" class="footer-logo" onerror="this.style.display='none'">
-                    <span class="footer-school-title">SMA Negeri 1 Gedeg</span>
+                    {{#sitelogourl}}
+                    <img src="{{{ sitelogourl }}}" alt="{{ sitefullname }}" class="footer-logo" onerror="this.style.display='none'">
+                    {{/sitelogourl}}
+                    {{^sitelogourl}}
+                    <img src="{{{ config.wwwroot }}}/pix/logo_smage.png" alt="{{ sitefullname }}" class="footer-logo" onerror="this.style.display='none'">
+                    {{/sitelogourl}}
+                    <span class="footer-school-title">{{ sitefullname }}</span>
                 </div>
                 <p class="footer-tagline">
                     Technology-integrated Learning Management System empowering excellence, creativity, and student leadership.
@@ -75,7 +80,7 @@
         <div class="scholargate-footer-bottom">
             <div class="footer-bottom-inner">
                 <div class="copyright-text">
-                    &copy; 2026 <strong>SMA Negeri 1 Gedeg</strong>. All rights reserved.
+                    &copy; 2026 <strong>{{ sitefullname }}</strong>. All rights reserved.
                 </div>
                 <div class="footer-meta-links">
                     <a href="https://portal.sman1gedeg.sch.id/terms" target="_blank" rel="noopener noreferrer" class="footer-legal-link">Terms of Service</a>
