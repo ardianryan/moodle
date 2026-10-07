@@ -87,8 +87,57 @@ $isguestorloggedout = !isloggedin() || isguestuser();
 $showfrontpageportal = ($isfrontpage && $isguestorloggedout);
 $loginurl = get_login_url();
 
+$sitefullname = format_string($SITE->fullname, true, ['context' => context_course::instance(SITEID), "escape" => false]);
+$siteshortname = format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]);
+$sitesummary = format_text($SITE->summary, FORMAT_HTML, ['context' => context_course::instance(SITEID)]);
+
+$logourl = $OUTPUT->get_logo_url();
+$compactlogourl = $OUTPUT->get_compact_logo_url();
+$sitelogourl = $logourl ? $logourl->out(false) : ($compactlogourl ? $compactlogourl->out(false) : (new moodle_url('/pix/logo_smage.png'))->out(false));
+
+$featuredcourse = null;
+if ($showfrontpageportal) {
+    global $DB;
+    $courses = $DB->get_records_sql("
+        SELECT c.id, c.fullname, c.shortname, c.summary
+        FROM {course} c
+        WHERE c.id > 1 AND c.visible = 1
+        ORDER BY c.sortorder ASC, c.id DESC
+        LIMIT 1
+    ");
+    if (!empty($courses)) {
+        $c = reset($courses);
+        $cle = new core_course_list_element($c);
+        $courseimage = null;
+        foreach ($cle->get_course_overviewfiles() as $file) {
+            $url = moodle_url::make_file_url('/pluginfile.php', '/' . $file->get_contextid() . '/' . $file->get_component() . '/' . $file->get_filearea() . $file->get_filepath() . $file->get_filename());
+            $courseimage = $url->out(false);
+            break;
+        }
+        $rawsummary = strip_tags($c->summary);
+        $cleanlines = array_filter(array_map('trim', explode("\n", $rawsummary)));
+        $firstline = !empty($cleanlines) ? reset($cleanlines) : '';
+        if (mb_strlen($firstline) > 130) {
+            $firstline = mb_substr($firstline, 0, 127) . '...';
+        }
+        $featuredcourse = [
+            'id' => $c->id,
+            'fullname' => format_string($c->fullname),
+            'shortname' => format_string($c->shortname),
+            'summary' => $firstline ?: ('Kelas aktif di LMS ' . $siteshortname),
+            'imageurl' => $courseimage ?: $sitelogourl,
+            'viewurl' => (new moodle_url('/course/view.php', ['id' => $c->id]))->out(false),
+        ];
+    }
+}
+
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
+    'sitefullname' => $sitefullname,
+    'siteshortname' => $siteshortname,
+    'sitesummary' => $sitesummary,
+    'sitelogourl' => $sitelogourl,
+    'featuredcourse' => $featuredcourse,
     'output' => $OUTPUT,
     'sidepreblocks' => $blockshtml,
     'hasblocks' => $hasblocks,

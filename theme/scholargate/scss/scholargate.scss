@@ -1618,7 +1618,7 @@ select,
 }
 
 /* ==========================================================================
-   CMS-Scholargate Frontpage Portal (Guest / Landing Experience)
+   CMS-Scholargate Frontpage Bento Grid (Faithful to cms-scholargate reference)
    ========================================================================== */
 
 /* Hide default bare Moodle frontpage header for guests */
@@ -1628,15 +1628,15 @@ body.pagelayout-frontpage.notloggedin #region-main > h2:first-of-type {
   display: none !important;
 }
 
-.scholargate-portal-wrapper {
-  margin-bottom: 32px;
-  animation: portalFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+.bento-page {
+  width: 100%;
+  animation: bentoFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes portalFadeIn {
+@keyframes bentoFadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -1644,715 +1644,525 @@ body.pagelayout-frontpage.notloggedin #region-main > h2:first-of-type {
   }
 }
 
-/* 1. Hero Section */
-.portal-hero-section {
-  background: #ffffff;
-  border: 1px solid var(--color-line);
+/* 12-Column CSS Grid Board */
+.bento-board {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
+}
+
+/* Grid Column Spans */
+.bento-board > .span-12 { grid-column: span 12; }
+.bento-board > .span-7  { grid-column: span 7; }
+.bento-board > .span-5  { grid-column: span 5; }
+.bento-board > .span-4  { grid-column: span 4; }
+.bento-board > .span-2  { grid-column: span 2; }
+
+/* Bento Tile Surface */
+.bento-tile {
   border-radius: var(--radius-bento);
-  box-shadow: var(--shadow-card);
-  padding: 40px;
+  border: 1px solid var(--color-line);
+  padding: 22px;
   position: relative;
   overflow: hidden;
-  margin-bottom: 40px;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
 }
 
-.portal-hero-section::before {
-  content: "";
-  position: absolute;
-  top: -120px;
-  right: -80px;
-  width: 420px;
-  height: 420px;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(14, 165, 233, 0.04) 50%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.portal-hero-grid {
-  display: grid;
-  grid-template-columns: 1.25fr 0.85fr;
-  gap: 36px;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-}
-
-.portal-eyebrow-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--color-brand-soft);
-  color: var(--color-brand-dark);
-  font-size: 0.82rem;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  margin-bottom: 16px;
-}
-
-.portal-eyebrow-badge .badge-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
-}
-
-.portal-hero-title {
-  font-size: 2.35rem !important;
-  font-weight: 900 !important;
-  line-height: 1.18 !important;
-  color: var(--color-ink) !important;
-  letter-spacing: -0.03em !important;
-  margin: 0 0 16px !important;
-}
-
-.portal-hero-lead {
-  font-size: 1.02rem;
-  line-height: 1.65;
-  color: var(--color-body);
-  margin: 0 0 24px;
-  max-width: 620px;
-}
-
-.portal-hero-lead strong {
-  color: var(--color-brand-dark);
-  font-weight: 700;
-}
-
-.portal-hero-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 28px;
-}
-
-.btn-portal-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-  color: #ffffff !important;
-  font-weight: 700;
-  font-size: 0.95rem;
-  padding: 12px 24px;
-  border-radius: 14px;
-  text-decoration: none !important;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
-}
-
-.btn-portal-primary:hover {
+.bento-tile:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
-  color: #ffffff !important;
+  box-shadow: var(--shadow-card-hover);
 }
 
-.btn-portal-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+/* Authentic Bento Tones matching cms-scholargate bentoTones */
+.tone-white {
   background: #ffffff;
-  color: var(--color-ink) !important;
-  border: 1.5px solid var(--color-line);
-  font-weight: 700;
-  font-size: 0.95rem;
-  padding: 11px 22px;
-  border-radius: 14px;
-  text-decoration: none !important;
-  transition: all 0.2s ease;
-}
-
-.btn-portal-secondary:hover {
-  background: var(--color-muted);
-  border-color: #cbd5e1;
-  color: var(--color-ink) !important;
-}
-
-.portal-trust-pills {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.trust-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 0.84rem;
-  font-weight: 600;
-  color: var(--color-subtle);
-}
-
-/* Hero Bento Card (Side info) */
-.portal-hero-card-col {
-  width: 100%;
-}
-
-.hero-bento-card {
-  background: #fafaf9;
-  border: 1px solid #e7e5e4;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-}
-
-.card-glass-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #f0eeeb;
-}
-
-.school-logo-badge {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.school-badge-img {
-  width: 46px;
-  height: 46px;
-  object-fit: contain;
-}
-
-.school-name-text {
-  font-size: 1.05rem !important;
-  font-weight: 800 !important;
-  color: var(--color-ink) !important;
-  margin: 0 !important;
-  line-height: 1.2 !important;
-}
-
-.school-tagline-text {
-  font-size: 0.78rem;
-  color: var(--color-subtle);
-  margin: 2px 0 0;
-}
-
-.system-status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  background: #ecfdf5;
-  color: #059669;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid #a7f3d0;
-  white-space: nowrap;
-}
-
-.system-status-chip .live-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10b981;
-  animation: liveDotPulse 2s infinite;
-}
-
-@keyframes liveDotPulse {
-  0% { transform: scale(0.95); opacity: 0.8; }
-  50% { transform: scale(1.25); opacity: 1; }
-  100% { transform: scale(0.95); opacity: 0.8; }
-}
-
-.portal-stat-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin: 16px 0;
-}
-
-.stat-box {
-  background: #ffffff;
-  border: 1px solid var(--color-line);
-  border-radius: 14px;
-  padding: 12px 10px;
-  text-align: center;
-}
-
-.stat-number {
-  display: block;
-  font-size: 1.3rem;
-  font-weight: 900;
+  border-color: var(--color-line);
   color: var(--color-ink);
-  line-height: 1.1;
+  box-shadow: var(--shadow-card);
 }
 
-.stat-label {
-  font-size: 0.72rem;
-  color: var(--color-subtle);
-  font-weight: 600;
-  margin-top: 4px;
-  display: block;
+.tone-peach {
+  background: var(--color-peach-soft);
+  border-color: #ebd7c2;
+  color: var(--color-ink);
 }
 
-.hero-card-callout {
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
-  border-radius: 12px;
-  padding: 12px 14px;
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-}
-
-.hero-card-callout .callout-icon {
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.hero-card-callout .callout-text strong {
-  display: block;
-  font-size: 0.82rem;
-  color: #065f46;
-  margin-bottom: 2px;
-}
-
-.hero-card-callout .callout-text p {
-  font-size: 0.78rem;
-  color: #047857;
-  margin: 0;
-  line-height: 1.45;
-}
-
-/* 2. Features Section (Bento Grid) */
-.portal-features-section {
-  margin-top: 48px;
-}
-
-.section-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 20px;
-  margin-bottom: 24px;
-}
-
-.section-eyebrow {
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-brand-dark);
-  display: block;
-  margin-bottom: 6px;
-}
-
-.section-title {
-  font-size: 1.65rem !important;
-  font-weight: 800 !important;
-  color: var(--color-ink) !important;
-  letter-spacing: -0.025em !important;
-  margin: 0 0 6px !important;
-}
-
-.section-subtitle {
-  font-size: 0.94rem;
-  color: var(--color-subtle);
-  margin: 0;
-  max-width: 620px;
-  line-height: 1.5;
-}
-
-.portal-bento-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-}
-
-.bento-feature-tile {
-  border-radius: var(--radius-card);
-  padding: 24px;
-  border: 1px solid;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
-}
-
-.bento-feature-tile:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.tile-sky {
+.tone-sky {
   background: #f0f9ff;
-  border-color: #bae6fd;
+  border-color: #e0f2fe;
+  color: var(--color-ink);
 }
-.tile-mint {
+
+.tone-mint {
   background: #ecfdf5;
-  border-color: #a7f3d0;
+  border-color: #d1fae5;
+  color: var(--color-ink);
 }
-.tile-violet {
+
+.tone-violet {
   background: #f5f3ff;
-  border-color: #ddd6fe;
+  border-color: #ede9fe;
+  color: var(--color-ink);
 }
-.tile-amber {
+
+.tone-amber {
   background: #fffbeb;
-  border-color: #fde68a;
+  border-color: #fef3c7;
+  color: var(--color-ink);
 }
 
-.tile-icon-bubble {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 18px;
-  background: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-}
-
-.tile-tag {
-  font-size: 0.72rem;
+/* Bento Eyebrow */
+.bento-eyebrow {
+  font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 3px 8px;
-  border-radius: 6px;
-  display: inline-block;
-  margin-bottom: 10px;
-  width: fit-content;
+  letter-spacing: 0.14em;
+  color: var(--color-brand-dark);
+  margin-bottom: 6px;
+  display: block;
 }
 
-.tag-sky { background: #e0f2fe; color: #0369a1; }
-.tag-mint { background: #d1fae5; color: #047857; }
-.tag-violet { background: #ede9fe; color: #6d28d9; }
-.tag-amber { background: #fef3c7; color: #b45309; }
-
-.tile-title {
-  font-size: 1.08rem !important;
-  font-weight: 800 !important;
-  color: var(--color-ink) !important;
-  margin: 0 0 8px !important;
-  line-height: 1.3 !important;
+/* —— Hero Banner Tile —— */
+.hero-banner-tile {
+  padding: 34px 30px;
 }
 
-.tile-desc {
-  font-size: 0.88rem;
-  line-height: 1.55;
-  color: var(--color-body);
-  margin: 0;
-}
-
-/* 3. Profil Satuan Pendidikan (School Profile) */
-.portal-profile-section {
-  margin-top: 48px;
-}
-
-.profile-bento-wrapper {
-  background: #ffffff;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-bento);
-  padding: 36px 32px;
-  box-shadow: var(--shadow-card);
+.hero-banner-inner {
   display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  gap: 36px;
+  grid-template-columns: 1.35fr 0.85fr;
+  gap: 28px;
   align-items: center;
 }
 
-.profile-title {
-  font-size: 1.6rem !important;
-  font-weight: 800 !important;
+.hero-title {
+  font-size: 2.05rem !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.03em !important;
   color: var(--color-ink) !important;
-  margin: 4px 0 14px !important;
-}
-
-.profile-quote {
-  font-size: 1.02rem;
-  font-style: italic;
-  font-weight: 600;
-  color: #047857;
-  background: #ecfdf5;
-  border-left: 4px solid #10b981;
-  padding: 14px 18px;
-  border-radius: 0 12px 12px 0;
-  margin: 0 0 16px;
-  line-height: 1.55;
-}
-
-.profile-body-text {
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: var(--color-body);
-  margin: 0 0 18px;
-}
-
-.profile-meta-pills {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.profile-pill {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--color-subtle);
-  background: var(--color-muted);
-  padding: 5px 12px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-}
-
-.profile-highlight-box {
-  background: #fafaf9;
-  border: 1px solid #e7e5e4;
-  border-radius: 18px;
-  padding: 24px;
-}
-
-.highlight-box-title {
-  font-size: 1rem !important;
-  font-weight: 800 !important;
-  color: var(--color-ink) !important;
-  margin: 0 0 14px !important;
-}
-
-.highlight-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.highlight-list li {
-  display: flex;
-  gap: 10px;
-  font-size: 0.88rem;
-  line-height: 1.5;
-  color: var(--color-body);
-}
-
-.list-bullet {
-  color: #059669;
-  font-weight: 800;
-  flex-shrink: 0;
-}
-
-.btn-profile-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 11px 16px;
-  border-radius: 12px;
-  background: #ffffff;
-  border: 1.5px solid var(--color-line);
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: var(--color-ink) !important;
-  text-decoration: none !important;
-  transition: all 0.2s ease;
-}
-
-.btn-profile-link:hover {
-  background: var(--color-muted);
-  border-color: #cbd5e1;
-}
-
-/* 4. News Section (Warta Sekolah) */
-.portal-news-section {
-  margin-top: 48px;
-}
-
-.portal-news-all-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.86rem;
-  font-weight: 700;
-  color: #047857 !important;
-  background: #ecfdf5;
-  padding: 8px 16px;
-  border-radius: 999px;
-  text-decoration: none !important;
-  border: 1px solid #a7f3d0;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.portal-news-all-btn:hover {
-  background: #d1fae5;
-  color: #065f46 !important;
-}
-
-.news-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.news-bento-card {
-  background: #ffffff;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-card);
-  padding: 24px;
-  box-shadow: var(--shadow-card);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
-}
-
-.news-bento-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.news-card-badge-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.news-category-badge {
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  padding: 3px 10px;
-  border-radius: 6px;
-  letter-spacing: 0.03em;
-}
-
-.badge-emerald { background: #ecfdf5; color: #047857; }
-.badge-sky { background: #f0f9ff; color: #0284c7; }
-.badge-amber { background: #fffbeb; color: #d97706; }
-
-.news-date-text {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--color-subtle);
-}
-
-.news-card-title {
-  font-size: 1.05rem !important;
-  font-weight: 800 !important;
-  color: var(--color-ink) !important;
-  line-height: 1.35 !important;
+  line-height: 1.2 !important;
   margin: 0 0 10px !important;
 }
 
-.news-card-excerpt {
-  font-size: 0.88rem;
+.hero-desc {
+  font-size: 0.96rem;
   line-height: 1.6;
   color: var(--color-body);
-  margin: 0 0 16px;
-  flex-grow: 1;
+  margin: 0 0 20px;
+  max-width: 580px;
 }
 
-.news-card-footer {
-  border-top: 1px solid #f1f5f9;
-  padding-top: 14px;
-  font-size: 0.82rem;
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn-bento-primary {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  color: #ffffff !important;
   font-weight: 700;
-  color: var(--color-subtle);
+  font-size: 0.92rem;
+  padding: 11px 22px;
+  border-radius: 12px;
+  text-decoration: none !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-bento-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+  color: #ffffff !important;
+}
+
+.btn-bento-secondary {
+  background: #ffffff;
+  border: 1.5px solid var(--color-line);
+  color: var(--color-ink) !important;
+  font-weight: 700;
+  font-size: 0.92rem;
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.btn-bento-secondary:hover {
+  background: var(--color-muted);
+  border-color: #cbd5e1;
+  color: var(--color-ink) !important;
+}
+
+.school-identity-box {
   display: flex;
   align-items: center;
+  gap: 14px;
+  background: #fafaf9;
+  border: 1px solid #e7e5e4;
+  border-radius: 16px;
+  padding: 16px 20px;
+}
+
+.school-crest-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.school-text-wrap .school-title {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-ink);
+  line-height: 1.2;
+}
+
+.school-text-wrap .school-meta {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--color-subtle);
+  margin-top: 3px;
+}
+
+/* —— Photo Block (Pejabat / Gedung 4:5) —— */
+.tile-photo-block {
+  padding: 0 !important;
+}
+
+.photo-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  background: linear-gradient(145deg, #f7efe4 0%, #ebd7c2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-crest-center {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+}
+
+.photo-badge-left {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #ccfbf1;
+  color: #0f766e;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.05em;
+}
+
+.photo-badge-right {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  background: #0284c7;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.05em;
+}
+
+/* —— Sambutan Singkat —— */
+.tile-welcome-block {
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
-.news-target-badge {
-  display: inline-flex;
-  align-items: center;
-}
-
-.news-link-action {
-  color: #047857 !important;
-  text-decoration: none !important;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: gap 0.2s ease;
-}
-
-.news-link-action:hover {
-  gap: 8px;
-}
-
-/* 5. Courses Divider Section */
-.courses-divider-section {
-  margin-top: 56px;
-  margin-bottom: 24px;
-  padding-top: 32px;
-  border-top: 2px dashed #e2e8f0;
-}
-
-.divider-eyebrow {
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-brand-dark);
-  display: block;
-  margin-bottom: 6px;
-}
-
-.divider-title {
-  font-size: 1.65rem !important;
+.welcome-heading {
+  font-size: 1.25rem !important;
   font-weight: 800 !important;
   color: var(--color-ink) !important;
-  letter-spacing: -0.025em !important;
+  line-height: 1.28 !important;
+  margin: 0 0 10px !important;
+}
+
+.welcome-body p {
+  font-size: 0.9rem;
+  line-height: 1.58;
+  color: var(--color-body);
+  margin: 0;
+}
+
+.welcome-footer-tag {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  width: fit-content;
+}
+
+/* —— Layanan Mini Tiles —— */
+.tile-service {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.service-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.text-sky { color: #0284c7; }
+.text-emerald { color: #059669; }
+.text-violet { color: #7c3aed; }
+.text-amber { color: #d97706; }
+
+.service-title {
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  color: var(--color-ink) !important;
+  margin: 0 0 4px !important;
+  line-height: 1.25 !important;
+}
+
+.service-desc {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--color-subtle);
+  margin: 0;
+}
+
+/* —— Articles Board (Yang Sedang Hangat) —— */
+.section-row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.bento-section-title {
+  font-size: 1.55rem !important;
+  font-weight: 800 !important;
+  color: var(--color-ink) !important;
+  letter-spacing: -0.02em !important;
+  margin: 0 !important;
+}
+
+.btn-bento-text {
+  color: #047857 !important;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-bento-text:hover {
+  color: #065f46 !important;
+}
+
+.tile-featured-article {
+  padding: 0 !important;
+}
+
+.featured-article-link {
+  display: block;
+  height: 100%;
+  position: relative;
+  text-decoration: none !important;
+}
+
+.featured-cover-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 290px;
+  overflow: hidden;
+}
+
+.featured-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.tile-featured-article:hover .featured-cover-img {
+  transform: scale(1.03);
+}
+
+.featured-cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(15, 23, 42, 0.88) 100%);
+}
+
+.featured-cover-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  color: #ffffff;
+}
+
+.featured-caption-title {
+  color: #ffffff !important;
+  font-size: 1.25rem !important;
+  font-weight: 800 !important;
+  line-height: 1.3 !important;
   margin: 0 0 6px !important;
 }
 
-.divider-desc {
-  font-size: 0.94rem;
-  color: var(--color-subtle);
+.featured-caption-excerpt {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85rem;
+  line-height: 1.5;
   margin: 0;
-  max-width: 650px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .portal-hero-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
+.side-articles-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tile-side-article {
+  padding: 12px 14px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.side-thumb-wrap {
+  width: 80px;
+  height: 68px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.side-thumb-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.side-thumb-fallback.bg-sky { background: #e0f2fe; color: #0284c7; }
+.side-thumb-fallback.bg-mint { background: #d1fae5; color: #059669; }
+.side-thumb-fallback.bg-amber { background: #fef3c7; color: #d97706; }
+
+.side-article-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.side-article-title {
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  color: var(--color-ink) !important;
+  line-height: 1.35 !important;
+  margin: 0 !important;
+}
+
+.badge-cat {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  display: inline-block;
+}
+
+.badge-cat-emerald { background: #10b981; color: #ffffff; }
+.badge-cat-sky { background: #e0f2fe; color: #0369a1; }
+.badge-cat-mint { background: #d1fae5; color: #047857; }
+.badge-cat-amber { background: #fef3c7; color: #b45309; }
+
+.caption-date,
+.meta-date {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-left: 6px;
+}
+
+/* —— Katalog Kursus Transition Section —— */
+.courses-section-header {
+  border-top: 1px solid var(--color-line);
+}
+
+.section-lead-text {
+  font-size: 0.92rem;
+  color: var(--color-subtle);
+  margin: 4px 0 0;
+}
+
+/* Responsive Grid Breakdown */
+@media (max-width: 991px) {
+  .bento-board {
+    grid-template-columns: repeat(6, 1fr);
   }
-  .portal-bento-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .profile-bento-wrapper {
+  .bento-board > .span-12 { grid-column: span 6; }
+  .bento-board > .span-7  { grid-column: span 6; }
+  .bento-board > .span-5  { grid-column: span 6; }
+  .bento-board > .span-4  { grid-column: span 3; }
+  .bento-board > .span-2  { grid-column: span 3; }
+
+  .hero-banner-inner {
     grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  .news-cards-grid {
-    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 
 @media (max-width: 640px) {
-  .portal-hero-section {
-    padding: 24px 20px;
-  }
-  .portal-hero-title {
-    font-size: 1.75rem !important;
-  }
-  .portal-bento-grid {
+  .bento-board {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
-  .profile-bento-wrapper {
+  .bento-board > .span-12,
+  .bento-board > .span-7,
+  .bento-board > .span-5,
+  .bento-board > .span-4,
+  .bento-board > .span-2 {
+    grid-column: span 1;
+  }
+
+  .hero-banner-tile {
     padding: 24px 20px;
   }
-  .section-header-row {
-    flex-direction: column;
-    align-items: flex-start;
+  .hero-title {
+    font-size: 1.65rem !important;
   }
 }
+
 
 
 
