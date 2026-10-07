@@ -769,6 +769,9 @@ class assign_files implements renderable {
      * @return moodle_url
      */
     public function get_file_url(stored_file $file): moodle_url {
+        $mimetype = $file->get_mimetype();
+        $forcedownload = !in_array($mimetype, ['application/pdf', 'image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+
         return \moodle_url::make_pluginfile_url(
             $this->context->id,
             $file->get_component(),
@@ -776,7 +779,7 @@ class assign_files implements renderable {
             $file->get_itemid(),
             $file->get_filepath(),
             $file->get_filename(),
-            true,
+            $forcedownload,
         );
     }
 }

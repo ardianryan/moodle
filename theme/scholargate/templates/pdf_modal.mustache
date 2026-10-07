@@ -1,0 +1,131 @@
+{{!
+    CMS-Scholargate Universal PDF & Document Viewer Modal
+}}
+<div id="scholargate-pdf-modal" class="scholargate-pdf-modal" style="display: none;" aria-hidden="true">
+    <div class="scholargate-pdf-backdrop"></div>
+    <div class="scholargate-pdf-dialog">
+        <div class="scholargate-pdf-header">
+            <div class="scholargate-pdf-title-wrap">
+                <i class="fa fa-file-pdf-o text-danger me-2" aria-hidden="true"></i>
+                <span id="scholargate-pdf-title" class="scholargate-pdf-title">Dokumen PDF</span>
+            </div>
+            <div class="scholargate-pdf-actions">
+                <a id="scholargate-pdf-newtab" href="#" target="_blank" class="btn btn-sm btn-outline-secondary" title="Buka di Tab Baru">
+                    <i class="fa fa-external-link me-1"></i> Buka Tab Baru
+                </a>
+                <a id="scholargate-pdf-download" href="#" class="btn btn-sm btn-success text-white" title="Unduh Berkas">
+                    <i class="fa fa-download me-1"></i> Unduh
+                </a>
+                <button type="button" id="scholargate-pdf-close" class="btn btn-sm btn-light border ms-2" aria-label="Tutup">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="scholargate-pdf-body">
+            <div id="scholargate-pdf-loader" class="scholargate-pdf-loader">
+                <div class="spinner-border text-success" role="status">
+                    <span class="sr-only">Memuat pratinjau...</span>
+                </div>
+                <div class="mt-2 text-muted small font-weight-medium">Memuat pratinjau dokumen...</div>
+            </div>
+            <iframe id="scholargate-pdf-frame" class="scholargate-pdf-frame" src="about:blank" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    function initPdfPreviewer() {
+        var modal = document.getElementById('scholargate-pdf-modal');
+        var frame = document.getElementById('scholargate-pdf-frame');
+        var titleElem = document.getElementById('scholargate-pdf-title');
+        var newtabBtn = document.getElementById('scholargate-pdf-newtab');
+        var downloadBtn = document.getElementById('scholargate-pdf-download');
+        var closeBtn = document.getElementById('scholargate-pdf-close');
+        var backdrop = modal ? modal.querySelector('.scholargate-pdf-backdrop') : null;
+        var loader = document.getElementById('scholargate-pdf-loader');
+
+        if (!modal || !frame) return;
+
+        function openPdf(url, filename) {
+            var viewUrl;
+            try {
+                var u = new URL(url, window.location.origin);
+                u.searchParams.delete('forcedownload');
+                u.searchParams.delete('dl');
+                u.searchParams.delete('download');
+                viewUrl = u.toString();
+            } catch(e) {
+                viewUrl = url.replace(/([?&])forcedownload=1(&|$)/g, '$1').replace(/([?&])dl=1(&|$)/g, '$1');
+            }
+
+            var dlUrl;
+            try {
+                var u2 = new URL(viewUrl, window.location.origin);
+                u2.searchParams.set('forcedownload', '1');
+                u2.searchParams.set('dl', '1');
+                dlUrl = u2.toString();
+            } catch(e) {
+                dlUrl = viewUrl + (viewUrl.indexOf('?') === -1 ? '?' : '&') + 'forcedownload=1&dl=1';
+            }
+
+            titleElem.textContent = filename || 'Pratinjau Dokumen PDF';
+            newtabBtn.href = viewUrl;
+            downloadBtn.href = dlUrl;
+
+            loader.style.display = 'flex';
+            frame.style.display = 'none';
+            frame.src = viewUrl;
+
+            frame.onload = function() {
+                loader.style.display = 'none';
+                frame.style.display = 'block';
+            };
+
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePdf() {
+            modal.style.display = 'none';
+            frame.src = 'about:blank';
+            document.body.style.overflow = '';
+        }
+
+        if (closeBtn) closeBtn.addEventListener('click', closePdf);
+        if (backdrop) backdrop.addEventListener('click', closePdf);
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                closePdf();
+            }
+        });
+
+        // Intercept clicks on PDF links globally
+        document.addEventListener('click', function(e) {
+            var link = e.target.closest('a');
+            if (!link || !link.href) return;
+
+            var href = link.href.toLowerCase();
+            // Match .pdf files from pluginfile.php or assign submissions
+            if (href.indexOf('.pdf') !== -1 && (href.indexOf('pluginfile.php') !== -1 || href.indexOf('assignsubmission') !== -1)) {
+                // If it's the download button inside our own modal, allow normal download
+                if (link.id === 'scholargate-pdf-download' || link.id === 'scholargate-pdf-newtab') {
+                    return;
+                }
+                if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+
+                e.preventDefault();
+                var text = link.textContent.trim() || link.getAttribute('title') || 'Dokumen PDF';
+                openPdf(link.href, text);
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPdfPreviewer);
+    } else {
+        initPdfPreviewer();
+    }
+})();
+</script>

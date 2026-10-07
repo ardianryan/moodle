@@ -1,0 +1,268 @@
+{{!
+    CMS-Scholargate Custom Login Form
+    - Primary CTA: Login dengan SMAGE ID at the top
+    - Secondary: Collapsible local login (Username & Password)
+    - Disabled guest login
+}}
+
+<div class="scholargate-login-card">
+    {{#logourl}}
+        <div class="login-brand-header text-center mb-4">
+            <img src="{{logourl}}" class="login-brand-logo mb-3" alt="{{sitename}}"/>
+            <h2 class="login-brand-title">{{sitename}}</h2>
+            <p class="login-brand-subtitle">Portal Pembelajaran Digital SMA Negeri 1 Gedeg</p>
+        </div>
+    {{/logourl}}
+    {{^logourl}}
+        <div class="login-brand-header text-center mb-4">
+            <h2 class="login-brand-title">{{sitename}}</h2>
+            <p class="login-brand-subtitle">Portal Pembelajaran Digital SMA Negeri 1 Gedeg</p>
+        </div>
+    {{/logourl}}
+
+    {{#maintenance}}
+        <div class="alert alert-danger login-maintenance mb-3">
+            {{{maintenance}}}
+        </div>
+    {{/maintenance}}
+    {{#error}}
+        <div class="alert alert-danger mb-3" id="loginerrormessage" role="alert">{{error}}</div>
+    {{/error}}
+    {{#info}}
+        <div class="alert alert-info mb-3" id="logininfomessage" role="status">{{info}}</div>
+    {{/info}}
+
+    {{! ========================================== }}
+    {{! 1. PRIMARY: LOGIN DENGAN SMAGE ID (TOP)   }}
+    {{! ========================================== }}
+    {{#hasidentityproviders}}
+        <div class="smage-id-auth-box mb-4">
+            {{#identityproviders}}
+                <a class="btn-smage-id" href="{{url}}">
+                    <div class="btn-smage-id-left">
+                        <div class="btn-smage-id-icon">
+                            {{#iconurl}}
+                                <img src="{{iconurl}}" alt="" width="22" height="22"/>
+                            {{/iconurl}}
+                            {{^iconurl}}
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 2l-2 2m-1.5 1.5L16 7m-1.5 1.5L13 10m-1.5 1.5L10 13m-1.5 1.5L7 16m-1.5 1.5L4 19"/>
+                                    <circle cx="15.5" cy="8.5" r="4.5"/>
+                                </svg>
+                            {{/iconurl}}
+                        </div>
+                        <div class="btn-smage-id-text">
+                            <span class="btn-smage-id-title">{{name}}</span>
+                            <span class="btn-smage-id-desc">Fast Access for Students &amp; Teachers</span>
+                        </div>
+                    </div>
+                    <div class="btn-smage-id-arrow">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+                </a>
+            {{/identityproviders}}
+        </div>
+    {{/hasidentityproviders}}
+
+    {{! ========================================== }}
+    {{! 2. SECONDARY: HIDDEN USERNAME/PASSWORD    }}
+    {{! ========================================== }}
+    {{#showloginform}}
+        <div class="login-collapsible-wrapper">
+            <div class="login-divider-pill mb-3">
+                <span class="login-divider-line"></span>
+                <span class="login-divider-text">Or local account</span>
+                <span class="login-divider-line"></span>
+            </div>
+
+            <!-- Toggle Button to Show/Hide Form -->
+            <button type="button" class="btn-toggle-local" id="toggleLocalLoginBtn" aria-expanded="false" aria-controls="localLoginFormCollapse">
+                <span class="btn-toggle-label">
+                    <i class="fa fa-user-circle-o mr-2"></i>
+                    <span>Sign in with Username &amp; Password</span>
+                </span>
+                <i class="fa fa-chevron-down toggle-chevron" id="toggleChevron"></i>
+            </button>
+
+            <!-- Collapsed Form Container (Hidden by default) -->
+            <div id="localLoginFormCollapse" class="local-login-collapse mt-3" style="display: none;">
+                <form class="login-form" action="{{loginurl}}" method="post" id="login">
+                    <input id="anchor" type="hidden" name="anchor" value="">
+                    <script>document.getElementById('anchor').value = location.hash;</script>
+                    <input type="hidden" name="logintoken" value="{{logintoken}}">
+
+                    <div class="form-group mb-3">
+                        <label for="username" class="form-label text-sm font-weight-bold text-ink">
+                            {{^canloginbyemail}}
+                                {{#str}} username {{/str}}
+                            {{/canloginbyemail}}
+                            {{#canloginbyemail}}
+                                {{#str}} usernameemail {{/str}}
+                            {{/canloginbyemail}}
+                        </label>
+                        <div class="input-with-icon">
+                            <i class="fa fa-user input-icon"></i>
+                            <input type="text" name="username" id="username" class="form-control form-control-scholargate" value="{{username}}" placeholder="{{^canloginbyemail}}{{#cleanstr}}username{{/cleanstr}}{{/canloginbyemail}}{{#canloginbyemail}}{{#cleanstr}}usernameemail{{/cleanstr}}{{/canloginbyemail}}" autocomplete="username">
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="password" class="form-label text-sm font-weight-bold text-ink d-flex justify-content-between">
+                            <span>{{#str}} password {{/str}}</span>
+                            <a href="{{forgotpasswordurl}}" class="forgot-link text-xs">{{#str}}forgotaccount{{/str}}</a>
+                        </label>
+                        <div class="input-with-icon">
+                            <i class="fa fa-lock input-icon"></i>
+                            <input type="password" name="password" id="password" value="" class="form-control form-control-scholargate" placeholder="{{#cleanstr}}password{{/cleanstr}}" autocomplete="current-password">
+                        </div>
+                    </div>
+
+                    {{#recaptcha}}
+                        <div class="login-form-recaptcha mb-3">
+                            {{{recaptcha}}}
+                        </div>
+                    {{/recaptcha}}
+
+                    <div class="login-form-submit mt-4 mb-2">
+                        <button class="btn btn-primary-scholargate btn-block" type="submit" id="loginbtn">
+                            <i class="fa fa-sign-in mr-2"></i>
+                            <span>{{#str}}login{{/str}}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {{/showloginform}}
+
+    {{! Instructions / Sign up (if allowed) }}
+    {{#hasinstructions}}
+        <div class="login-instructions mt-4 pt-3 border-top">
+            <h5 class="text-sm font-weight-bold mb-2">{{#str}}firsttime{{/str}}</h5>
+            <div class="text-xs text-muted">{{{instructions}}}</div>
+        </div>
+    {{/hasinstructions}}
+    {{#cansignup}}
+        <div class="login-signup mt-3">
+            <a class="btn btn-outline-secondary btn-block btn-sm rounded-pill" href="{{signupurl}}">{{#str}}startsignup{{/str}}</a>
+        </div>
+    {{/cansignup}}
+
+    <!-- Footer Meta: Language & Cookies -->
+    <div class="login-meta-footer mt-4 pt-3 border-top d-flex align-items-center justify-content-between text-xs">
+        <div class="d-flex align-items-center">
+            {{#languagemenu}}
+                <div class="login-languagemenu mr-2">
+                    {{>core/action_menu}}
+                </div>
+            {{/languagemenu}}
+        </div>
+        <button type="button" class="btn btn-link btn-sm text-muted p-0 text-xs"
+            data-modal="alert"
+            data-modal-title-str='["cookiesenabled", "core"]'
+            data-modal-content-str='["cookiesenabled_help_html", "core"]'>
+            {{#str}}cookiesnotice{{/str}}
+        </button>
+    </div>
+</div>
+
+{{#js}}
+    // Script to handle collapsible local login form
+    (function() {
+        var toggleBtn = document.getElementById('toggleLocalLoginBtn');
+        var formCollapse = document.getElementById('localLoginFormCollapse');
+        var chevron = document.getElementById('toggleChevron');
+        var hasError = {{#error}}true{{/error}}{{^error}}false{{/error}};
+        var isLoginHash = window.location.hash === '#login';
+
+        function showForm() {
+            if (formCollapse) {
+                formCollapse.style.display = 'block';
+                if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+                if (chevron) {
+                    chevron.classList.remove('fa-chevron-down');
+                    chevron.classList.add('fa-chevron-up');
+                }
+            }
+        }
+
+        function hideForm() {
+            if (formCollapse) {
+                formCollapse.style.display = 'none';
+                if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+                if (chevron) {
+                    chevron.classList.remove('fa-chevron-up');
+                    chevron.classList.add('fa-chevron-down');
+                }
+            }
+        }
+
+        // If error exists or hash is #login, auto-expand
+        if (hasError || isLoginHash) {
+            showForm();
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (formCollapse.style.display === 'none' || formCollapse.style.display === '') {
+                    showForm();
+                    var usernameField = document.getElementById('username');
+                    if (usernameField) usernameField.focus();
+                } else {
+                    hideForm();
+                }
+            });
+        }
+    })();
+
+    {{^error}}
+        {{#autofocusform}}
+            require(['core_form/events'], function(FormEvent) {
+                function autoFocus() {
+                    const userNameField = document.getElementById('username');
+                    const passwordField = document.getElementById('password');
+                    if (userNameField && userNameField.value.length == 0) {
+                        userNameField.focus();
+                    } else if (passwordField) {
+                        passwordField.focus();
+                    }
+                }
+                autoFocus();
+                window.addEventListener(FormEvent.eventTypes.fieldStructureChanged, autoFocus);
+            });
+        {{/autofocusform}}
+    {{/error}}
+    require(['core/pending'], function(Pending) {
+        const errorMessageDiv = document.getElementById('loginerrormessage');
+        const infoMessageDiv = document.getElementById('logininfomessage');
+        const errorMessage = errorMessageDiv?.textContent.trim();
+        const infoMessage = infoMessageDiv?.textContent.trim();
+        if (errorMessage || infoMessage) {
+            const pendingJS = new Pending('login-move-focus');
+            const usernameField = document.getElementById('username');
+            setTimeout(function() {
+                if (errorMessage && usernameField) {
+                    usernameField.focus();
+                }
+                if (errorMessage) {
+                    errorMessageDiv.innerHTML += "&nbsp;";
+                }
+                if (infoMessage) {
+                    infoMessageDiv.innerHTML += "&nbsp;";
+                }
+                pendingJS.resolve();
+            }, 500);
+        }
+    });
+    {{#togglepassword}}
+        require(['core/togglesensitive'], function(ToggleSensitive) {
+            ToggleSensitive.init("password", {{smallscreensonly}});
+        });
+    {{/togglepassword}}
+    require(['core_form/submit'], function(Submit) {
+        Submit.init("loginbtn");
+    });
+{{/js}}
