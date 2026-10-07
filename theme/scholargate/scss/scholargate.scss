@@ -829,6 +829,30 @@ h1, h2, h3, h4, h5, h6,
   color: var(--color-subtle);
 }
 
+.footer-meta-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.footer-legal-link {
+  color: var(--color-subtle) !important;
+  text-decoration: none !important;
+  font-size: 0.85rem;
+  transition: color 0.15s ease;
+}
+
+.footer-legal-link:hover {
+  color: var(--color-brand-dark) !important;
+  text-decoration: underline !important;
+}
+
+.footer-meta-dot {
+  color: #cbd5e1;
+  font-size: 0.75rem;
+}
+
 @media (max-width: 768px) {
   .footer-bottom-inner {
     flex-direction: column;

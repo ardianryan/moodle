@@ -146,21 +146,29 @@
         </div>
     {{/cansignup}}
 
-    <!-- Footer Meta: Language & Cookies -->
-    <div class="login-meta-footer mt-4 pt-3 border-top d-flex align-items-center justify-content-between text-xs">
-        <div class="d-flex align-items-center">
-            {{#languagemenu}}
-                <div class="login-languagemenu mr-2">
-                    {{>core/action_menu}}
-                </div>
-            {{/languagemenu}}
+    <!-- Footer Meta: Language, Cookies, Terms & Privacy Policy -->
+    <div class="login-meta-footer mt-4 pt-3 border-top text-xs text-muted">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+            <div class="d-flex align-items-center">
+                {{#languagemenu}}
+                    <div class="login-languagemenu mr-2">
+                        {{>core/action_menu}}
+                    </div>
+                {{/languagemenu}}
+            </div>
+            <button type="button" class="btn btn-link btn-sm text-muted p-0 text-xs"
+                data-modal="alert"
+                data-modal-title-str='["cookiesenabled", "core"]'
+                data-modal-content-str='["cookiesenabled_help_html", "core"]'>
+                {{#str}}cookiesnotice{{/str}}
+            </button>
         </div>
-        <button type="button" class="btn btn-link btn-sm text-muted p-0 text-xs"
-            data-modal="alert"
-            data-modal-title-str='["cookiesenabled", "core"]'
-            data-modal-content-str='["cookiesenabled_help_html", "core"]'>
-            {{#str}}cookiesnotice{{/str}}
-        </button>
+        <div class="login-legal-links text-center pt-2 border-top text-muted" style="font-size: 0.75rem;">
+            Governed by <a href="https://auth.sman1gedeg.sch.id" target="_blank" rel="noopener noreferrer" class="text-secondary font-weight-bold">SMAGE ID</a>.
+            <a href="https://portal.sman1gedeg.sch.id/terms" target="_blank" rel="noopener noreferrer" class="text-secondary ml-1">Terms</a>
+            &bull;
+            <a href="https://portal.sman1gedeg.sch.id/privacy" target="_blank" rel="noopener noreferrer" class="text-secondary mr-1">Privacy Policy</a>
+        </div>
     </div>
 </div>
 
