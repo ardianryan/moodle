@@ -58,28 +58,42 @@ echo $OUTPUT->header();
 ?>
 
 <div class="scholargate-enrol-rombel-container pb-5">
-    <!-- Header Card (Custom container avoiding .card background override) -->
-    <div class="sg-hero-banner shadow-sm mb-4" style="border-radius: 14px; background: linear-gradient(135deg, #090d16 0%, #0f172a 60%, #1e293b 100%) !important; color: #fff !important; padding: 24px 28px; border: 1px solid #334155 !important;">
+    <!-- Header Card -->
+    <div class="card border-0 shadow-sm mb-4" style="border-radius: 16px; background: #ffffff; border: 1px solid #e2e8f0 !important; padding: 24px 28px;">
         <div class="d-flex align-items-center justify-content-between flex-wrap">
             <div>
-                <span class="badge badge-pill mb-2 px-3 py-1 font-weight-bold" style="background: rgba(59,130,246,0.3); border: 1px solid rgba(59,130,246,0.5); color: #93c5fd; font-size: 0.75rem; text-transform: uppercase;">
-                    <i class="fa fa-users mr-1"></i> Quick Class Enrolment
-                </span>
-                <h3 class="font-weight-bold mb-1" style="color: #ffffff !important;">
+                <h3 class="font-weight-bold mb-1 text-dark">
                     Enrol Class Cohort Students
                 </h3>
-                <p class="mb-0" style="color: #cbd5e1 !important;">
-                    Course: <strong class="text-white"><?php echo s($course->fullname); ?></strong> (<?php echo s($course->shortname); ?>)
+                <p class="mb-0 text-muted">
+                    Course: <strong class="text-dark"><?php echo s($course->fullname); ?></strong> (<?php echo s($course->shortname); ?>)
                 </p>
             </div>
             <div class="mt-3 mt-md-0">
-                <a href="<?php echo new moodle_url('/course/view.php', ['id' => $course->id]); ?>" class="btn btn-outline-light btn-sm px-3">
+                <a href="<?php echo new moodle_url('/course/view.php', ['id' => $course->id]); ?>" class="btn btn-outline-secondary btn-sm px-3" style="border-radius: 10px;">
                     <i class="fa fa-arrow-left mr-1"></i> Back to Course
                 </a>
             </div>
         </div>
     </div>
 
+    <?php if (empty($cohorts)): ?>
+        <!-- Resilient Empty State -->
+        <div class="card border-0 shadow-sm text-center p-5" style="border-radius: 16px; background: #ffffff; border: 1px solid #e2e8f0 !important;">
+            <div class="py-4">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-light mb-3" style="width: 64px; height: 64px;">
+                    <i class="fa fa-users text-muted fa-2x"></i>
+                </div>
+                <h5 class="font-weight-bold text-dark mb-2">No Class Cohorts Available</h5>
+                <p class="text-muted mx-auto mb-4" style="max-width: 460px;">
+                    Class cohorts have not been synchronized yet from ScholarGate Identity. Run a synchronization to automatically import classes and student cohorts.
+                </p>
+                <a href="<?php echo new moodle_url('/local/scholargate_sync/sync.php'); ?>" class="btn btn-primary px-4 font-weight-bold" style="border-radius: 10px;">
+                    <i class="fa fa-refresh mr-2"></i> Open Identity Sync Center
+                </a>
+            </div>
+        </div>
+    <?php else: ?>
     <form method="post" action="<?php echo $PAGE->url; ?>">
         <input type="hidden" name="sesskey" value="<?php echo sesskey(); ?>">
 
@@ -177,6 +191,7 @@ echo $OUTPUT->header();
             <?php endforeach; ?>
         </div>
     </form>
+    <?php endif; ?>
 </div>
 
 <script>

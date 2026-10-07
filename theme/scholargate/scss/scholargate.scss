@@ -1,13 +1,11 @@
 @import "https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&display=swap";
 
-/* ==========================================================================
-   CMS-SCHOLARGATE DESIGN TOKENS
-   ========================================================================== */
+/* --- CMS-Scholargate Design Tokens --- */
 
 :root {
   --font-sans: 'Onest', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Canvas soft — bento ceria */
+  /* Canvas soft: warm neutral bento background */
   --color-page: #f7f4ef;
   --color-surface: #ffffff;
   --color-muted: #eef2f6;
@@ -35,9 +33,7 @@
   --shadow-header: 0 1px 0 rgba(61, 48, 32, 0.04), 0 4px 12px rgba(61, 48, 32, 0.03);
 }
 
-/* ==========================================================================
-   PAGE CANVAS & AMBIENT RADIAL LIGHTS
-   ========================================================================== */
+/* --- Page Canvas & Base Surface --- */
 
 html {
   min-height: 100%;
@@ -48,13 +44,6 @@ body {
   color: var(--color-body);
   min-height: 100vh;
   background-color: #f8f6f2 !important;
-  background-image:
-    radial-gradient(ellipse 80% 60% at 15% 10%, rgba(224, 242, 254, 0.6) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 50% at 85% 15%, rgba(254, 243, 199, 0.4) 0%, transparent 55%),
-    radial-gradient(ellipse 80% 70% at 50% 90%, rgba(204, 251, 241, 0.35) 0%, transparent 60%) !important;
-  background-attachment: fixed !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   margin: 0;
@@ -141,9 +130,7 @@ h1, h2, h3, h4, h5, h6,
   color: #ffffff !important;
 }
 
-/* ==========================================================================
-   HEADER / NAVBAR (CLEAN FULL-WIDTH GLASSMORPHISM)
-   ========================================================================== */
+/* --- Header Navigation Bar --- */
 
 .navbar.fixed-top,
 .scholargate-navbar {
@@ -307,9 +294,7 @@ h1, h2, h3, h4, h5, h6,
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* ==========================================================================
-   PAGE HEADER & ACTIONS
-   ========================================================================== */
+/* --- Page Header & Actions --- */
 
 #page-header {
   margin-bottom: 2rem !important;
@@ -343,9 +328,7 @@ h1, h2, h3, h4, h5, h6,
   box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
 }
 
-/* ==========================================================================
-   BENTO CARDS & COURSE VIEWS
-   ========================================================================== */
+/* --- Bento Cards & Course Views --- */
 
 .card,
 .block,
@@ -394,9 +377,7 @@ h1, h2, h3, h4, h5, h6,
   text-decoration: none !important;
 }
 
-/* ==========================================================================
-   MY COURSES & DASHBOARD BENTO VIEW
-   ========================================================================== */
+/* --- Dashboard & Course Overview --- */
 
 /* Seamless Course Overview Block (No nested box inside box) */
 .block_myoverview.card,
@@ -672,9 +653,7 @@ h1, h2, h3, h4, h5, h6,
   display: none !important;
 }
 
-/* ==========================================================================
-   BENTO FOOTER (FULL WIDTH ENTERPRISE PORTAL SYSTEM)
-   ========================================================================== */
+/* --- Bento Footer System --- */
 
 /* Hide default Moodle Boost Popover blank footer bar */
 .footer-popover,
@@ -858,9 +837,7 @@ h1, h2, h3, h4, h5, h6,
   }
 }
 
-/* ==========================================================================
-   SCHOLARGATE LOGIN PAGE (BENTO AUTH)
-   ========================================================================== */
+/* --- Scholargate Login Page --- */
 
 /* Remove Boost default gradients and borders on login page */
 .pagelayout-login,
@@ -1053,6 +1030,12 @@ h1, h2, h3, h4, h5, h6,
   color: var(--color-ink) !important;
 }
 
+.btn-toggle-local:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35) !important;
+  border-color: #10b981 !important;
+}
+
 .btn-toggle-local .btn-toggle-label {
   display: flex;
   align-items: center;
@@ -1151,9 +1134,7 @@ h1, h2, h3, h4, h5, h6,
   display: none !important;
 }
 
-/* ==========================================================================
-   SCHOLARGATE MOBILE & TOUCH OPTIMIZATION SUITE (UI/UX PRO MAX)
-   ========================================================================== */
+/* --- Mobile & Touch Optimization --- */
 
 /* 1. Global Viewport & Touch Ergonomics */
 html,
@@ -1495,9 +1476,7 @@ select,
   }
 }
 
-/* ==========================================================================
-   SCHOLARGATE UNIVERSAL PDF PREVIEW MODAL
-   ========================================================================== */
+/* --- Inline Document Preview Modal --- */
 .scholargate-pdf-modal {
   position: fixed;
   top: 0;

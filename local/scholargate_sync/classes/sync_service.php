@@ -38,10 +38,7 @@ class sync_service {
         $localuuid = trim($localprofile['uuid'] ?? '');
         $localrole = strtolower(trim($localprofile['role_sekolah'] ?? ''));
 
-        // ========================================================
-        // ATURAN 1: Cek Lokal Terlebih Dahulu
-        // Jika UUID & Role Sekolah sudah ada di lokal Moodle, langsung masuk.
-        // ========================================================
+        // Rule 1: Check local cache first. If UUID and school role exist, proceed.
         if (!empty($localuuid) && !empty($localrole)) {
             // Pastikan role Course Creator tetap aktif jika guru
             if ($localrole === 'guru' || $localrole === 'tendik') {
@@ -50,9 +47,7 @@ class sync_service {
             return true;
         }
 
-        // ========================================================
-        // ATURAN 2: Jika Belum Lengkap / Baru -> Cek ScholarGate Identity API
-        // ========================================================
+        // Rule 2: If profile incomplete, query ScholarGate Identity API.
         $client = new client();
 
         // Siapkan kriteria pencarian (prioritas: UUID -> Username/NIP -> Email)
@@ -84,11 +79,7 @@ class sync_service {
             return true;
         }
 
-        // ========================================================
-        // ATURAN 3: Jika di Lokal & ScholarGate TIDAK DITEMUKAN
-        // Batalkan sesi login dan arahkan ke URL pendaftaran / bantuan
-        // (Kecuali admin lokal Moodle)
-        // ========================================================
+        // Rule 3: Reject unregistered user if not found locally or in ScholarGate directory.
         if (is_siteadmin($user->id)) {
             return true;
         }

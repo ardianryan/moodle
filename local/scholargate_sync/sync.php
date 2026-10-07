@@ -13,9 +13,7 @@ $PAGE->set_heading('ScholarGate Identity Synchronization Center');
 
 $action = optional_param('action', '', PARAM_ALPHAEXT);
 
-// =========================================================================
-// HANDLER AJAX ENDPOINTS (NON-BLOCKING STREAM WORKER)
-// =========================================================================
+// AJAX endpoints for asynchronous synchronization workers.
 if (strpos($action, 'ajax_') === 0) {
     header('Content-Type: application/json; charset=utf-8');
     if (!confirm_sesskey()) {
@@ -132,32 +130,21 @@ echo $OUTPUT->header();
 ?>
 
 <div class="scholargate-sync-dashboard pb-5">
-    <!-- Premium High-Contrast Hero Banner (Not using .card to prevent theme override) -->
-    <div class="sg-hero-banner shadow-sm mb-4" style="background: linear-gradient(135deg, #090d16 0%, #0f172a 60%, #1e293b 100%) !important; color: #ffffff !important; border-radius: 16px; border: 1px solid #334155 !important; padding: 26px 30px; position: relative; overflow: hidden;">
-        <div style="position: absolute; right: -30px; top: -30px; width: 220px; height: 220px; background: radial-gradient(circle, rgba(16,185,129,0.2) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-        <div style="position: absolute; left: 35%; bottom: -50px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-
-        <div class="d-flex align-items-center justify-content-between flex-wrap position-relative" style="z-index: 1;">
+    <!-- Identity Synchronization Hero Banner -->
+    <div class="card border-0 shadow-sm mb-4" style="border-radius: 16px; background: #ffffff; border: 1px solid #e2e8f0 !important; padding: 26px 30px;">
+        <div class="d-flex align-items-center justify-content-between flex-wrap">
             <div>
-                <div class="d-flex align-items-center mb-2">
-                    <span class="badge mr-2 px-3 py-1 font-weight-bold" style="background: rgba(59,130,246,0.25); border: 1px solid rgba(59,130,246,0.5); color: #93c5fd; font-size: 0.75rem; letter-spacing: 0.5px; text-transform: uppercase;">
-                        <i class="fa fa-database mr-1"></i> Master Data Integration
-                    </span>
-                    <span class="badge mr-2 px-3 py-1 font-weight-bold" style="background: rgba(16,185,129,0.25); border: 1px solid rgba(16,185,129,0.5); color: #6ee7b7; font-size: 0.75rem; letter-spacing: 0.5px; text-transform: uppercase;">
-                        <i class="fa fa-bolt mr-1"></i> Non-Blocking Live Stream
-                    </span>
-                </div>
-                <h3 class="font-weight-bold mb-1" style="color: #ffffff !important; letter-spacing: -0.5px; font-size: 1.55rem;">
+                <h3 class="font-weight-bold mb-1 text-dark" style="letter-spacing: -0.5px; font-size: 1.55rem;">
                     ScholarGate Identity Synchronization Center
                 </h3>
-                <p class="mb-0" style="color: #cbd5e1 !important; max-width: 740px; font-size: 0.95rem; line-height: 1.55;">
+                <p class="mb-0 text-muted" style="max-width: 740px; font-size: 0.95rem; line-height: 1.55;">
                     Unified master data synchronization for Academic Year, Teachers, Staff, Active Students, Departures/Alumni, and Class Cohorts streamed directly from ScholarGate Identity.
                 </p>
             </div>
             <div class="mt-3 mt-md-0 text-md-right">
-                <div class="p-2 px-3 rounded-lg" style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(10px);">
-                    <div class="small text-uppercase font-weight-bold" style="color: #94a3b8; font-size: 0.72rem; letter-spacing: 0.5px;">Active Academic Year</div>
-                    <div class="font-weight-bold" style="color: #ffffff; font-size: 1.15rem;" id="stat-active-ay">
+                <div class="p-2 px-3 rounded-lg border bg-light">
+                    <div class="small text-uppercase font-weight-bold text-muted" style="font-size: 0.72rem; letter-spacing: 0.5px;">Active Academic Year</div>
+                    <div class="font-weight-bold text-dark" style="font-size: 1.15rem;" id="stat-active-ay">
                         <i class="fa fa-calendar-check-o text-success mr-1"></i> <?php echo s($activeay); ?>
                     </div>
                 </div>
@@ -168,7 +155,7 @@ echo $OUTPUT->header();
     <!-- Stat Grid Cards -->
     <div class="row mb-4">
         <div class="col-md-3 mb-3">
-            <div class="card border-0 shadow-sm h-100" style="border-radius: 12px; border-left: 4px solid #10b981 !important;">
+            <div class="card border-0 shadow-sm h-100" style="border-radius: 14px; border: 1px solid #e2e8f0 !important; background: #ffffff;">
                 <div class="card-body">
                     <div class="text-muted small text-uppercase font-weight-bold" style="letter-spacing: 0.5px;">Teachers & Staff</div>
                     <div class="h3 font-weight-bold text-dark mt-2 mb-0" id="card-count-guru"><?php echo number_format($countguru); ?></div>
@@ -177,7 +164,7 @@ echo $OUTPUT->header();
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="card border-0 shadow-sm h-100" style="border-radius: 12px; border-left: 4px solid #3b82f6 !important;">
+            <div class="card border-0 shadow-sm h-100" style="border-radius: 14px; border: 1px solid #e2e8f0 !important; background: #ffffff;">
                 <div class="card-body">
                     <div class="text-muted small text-uppercase font-weight-bold" style="letter-spacing: 0.5px;">Active Students</div>
                     <div class="h3 font-weight-bold text-dark mt-2 mb-0" id="card-count-siswa"><?php echo number_format($countsiswa); ?></div>
@@ -186,7 +173,7 @@ echo $OUTPUT->header();
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="card border-0 shadow-sm h-100" style="border-radius: 12px; border-left: 4px solid #8b5cf6 !important;">
+            <div class="card border-0 shadow-sm h-100" style="border-radius: 14px; border: 1px solid #e2e8f0 !important; background: #ffffff;">
                 <div class="card-body">
                     <div class="text-muted small text-uppercase font-weight-bold" style="letter-spacing: 0.5px;">Class Cohorts</div>
                     <div class="h3 font-weight-bold text-dark mt-2 mb-0" id="card-count-cohort"><?php echo number_format($countcohort); ?></div>
@@ -195,7 +182,7 @@ echo $OUTPUT->header();
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="card border-0 shadow-sm h-100" style="border-radius: 12px; border-left: 4px solid #f59e0b !important;">
+            <div class="card border-0 shadow-sm h-100" style="border-radius: 14px; border: 1px solid #e2e8f0 !important; background: #ffffff;">
                 <div class="card-body">
                     <div class="text-muted small text-uppercase font-weight-bold" style="letter-spacing: 0.5px;">Last Synchronization</div>
                     <div class="font-weight-bold text-dark mt-2 mb-0" style="font-size: 1.1rem;" id="stat-last-sync"><?php echo s($lastsyncstr); ?></div>
@@ -206,11 +193,11 @@ echo $OUTPUT->header();
     </div>
 
     <!-- Action Cards Section -->
-    <div class="card border-0 shadow-sm mb-4" style="border-radius: 16px;">
+    <div class="card border-0 shadow-sm mb-4" style="border-radius: 16px; border: 1px solid #e2e8f0 !important; background: #ffffff;">
         <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
             <div>
                 <h5 class="mb-0 font-weight-bold text-dark">
-                    <i class="fa fa-bolt text-warning mr-2"></i> On-Demand Data Synchronization
+                    <i class="fa fa-refresh text-primary mr-2"></i> On-Demand Data Synchronization
                 </h5>
                 <small class="text-muted">Executed in progressive background streams with live status indicators (non-freezing).</small>
             </div>
@@ -316,18 +303,16 @@ echo $OUTPUT->header();
     </div>
 </div>
 
-<!-- ========================================================================= -->
-<!-- MODERN PROGRESS BAR MODAL (NON-BLOCKING BACKGROUND WORKER) -->
-<!-- ========================================================================= -->
+<!-- Asynchronous Progress Modal -->
 <div id="sg-sync-modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); z-index: 10000; align-items: center; justify-content: center; padding: 20px;">
-    <div id="sg-sync-modal-card" style="background: #ffffff; border-radius: 20px; width: 100%; max-width: 680px; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.45); overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1);">
+    <div id="sg-sync-modal-card" style="background: #ffffff; border-radius: 16px; width: 100%; max-width: 680px; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.45); overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1);">
         
         <!-- Modal Header -->
-        <div style="background: linear-gradient(135deg, #090d16 0%, #1e293b 100%); padding: 24px 28px; color: #fff; position: relative;">
+        <div style="background: #1e293b; padding: 22px 26px; color: #fff; position: relative;">
             <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center">
-                    <div id="sg-modal-icon-container" style="width: 44px; height: 44px; border-radius: 12px; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.4); display: flex; align-items: center; justify-content: center; margin-right: 14px;">
-                        <i id="sg-modal-spinner" class="fa fa-refresh fa-spin text-info" style="font-size: 1.3rem;"></i>
+                    <div id="sg-modal-icon-container" style="width: 42px; height: 42px; border-radius: 10px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; margin-right: 14px;">
+                        <i id="sg-modal-spinner" class="fa fa-refresh fa-spin text-white" style="font-size: 1.2rem;"></i>
                     </div>
                     <div>
                         <h5 class="mb-0 text-white font-weight-bold" id="sg-modal-title">Master Data Synchronization</h5>
@@ -343,15 +328,15 @@ echo $OUTPUT->header();
         </div>
 
         <!-- Modal Body -->
-        <div style="padding: 28px;">
+        <div style="padding: 26px;">
             <!-- Main Progress Bar -->
             <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="font-weight-bold text-dark" id="sg-progress-phase-label">Initializing connection...</span>
-                    <span class="font-weight-bold text-primary" style="font-size: 1.15rem;" id="sg-progress-percentage">0%</span>
+                    <span class="font-weight-bold text-success" style="font-size: 1.15rem;" id="sg-progress-percentage">0%</span>
                 </div>
-                <div style="height: 16px; background: #e2e8f0; border-radius: 999px; overflow: hidden; position: relative;">
-                    <div id="sg-progress-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%); border-radius: 999px; transition: width 0.3s ease; position: relative; overflow: hidden;">
+                <div style="height: 14px; background: #e2e8f0; border-radius: 8px; overflow: hidden; position: relative;">
+                    <div id="sg-progress-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #059669 0%, #10b981 100%); border-radius: 8px; transition: width 0.3s ease; position: relative; overflow: hidden;">
                         <div style="position: absolute; inset: 0; background-image: linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent); background-size: 1rem 1rem; animation: progress-stripes 1s linear infinite;"></div>
                     </div>
                 </div>
@@ -411,11 +396,11 @@ echo $OUTPUT->header();
     </div>
 </div>
 
-<!-- FLOATING MINIMIZED PILL WIDGET -->
-<div id="sg-floating-pill" onclick="maximizeSyncModal()" style="display: none; position: fixed; bottom: 24px; right: 24px; z-index: 9999; background: #0f172a; color: #fff; padding: 10px 18px; border-radius: 999px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); cursor: pointer; align-items: center; transition: all 0.2s ease;">
-    <i id="sg-pill-spinner" class="fa fa-refresh fa-spin text-info mr-2"></i>
+<!-- Minimized Floating Widget -->
+<div id="sg-floating-pill" onclick="maximizeSyncModal()" style="display: none; position: fixed; bottom: 24px; right: 24px; z-index: 9999; background: #1e293b; color: #fff; padding: 10px 18px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.15); cursor: pointer; align-items: center; transition: all 0.2s ease;">
+    <i id="sg-pill-spinner" class="fa fa-refresh fa-spin text-success mr-2"></i>
     <span class="mr-2 small font-weight-bold" id="sg-pill-label">Sync Active</span>
-    <span class="badge badge-primary px-2 py-1 font-weight-bold" id="sg-pill-percent">0%</span>
+    <span class="badge badge-success px-2 py-1 font-weight-bold" id="sg-pill-percent">0%</span>
 </div>
 
 <style>
@@ -640,8 +625,8 @@ async function runSyncAll() {
         return;
     }
 
-    showSyncModal('Full Master Synchronization', 'Executing complete master synchronization pipeline...');
-    appendConsoleLog('🚀 Starting Full Pipeline Orchestration...');
+    showSyncModal('Master Synchronization', 'Executing master synchronization pipeline...');
+    appendConsoleLog('Starting synchronization pipeline...');
 
     try {
         // Step 1: AY
