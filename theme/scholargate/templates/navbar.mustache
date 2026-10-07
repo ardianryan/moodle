@@ -1,0 +1,48 @@
+{{!
+    CMS-Scholargate Navbar Template
+}}
+<nav class="navbar fixed-top navbar-light navbar-expand scholargate-navbar" aria-label="{{#str}}sitemenubar, admin{{/str}}">
+    <div class="container-fluid scholargate-nav-container">
+        <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0" data-toggler="drawers" data-action="toggle" data-target="theme_boost-drawers-primary" aria-label="{{#str}}sidepanel, core{{/str}}">
+            <span class="navbar-toggler-icon"></span>
+            <span class="sr-only">{{#str}}sidepanel, core{{/str}}</span>
+        </button>
+
+        <a href="{{{ config.homeurl }}}" class="navbar-brand d-flex align-items-center m-0 me-4 p-0 aabtn scholargate-brand">
+            <img src="{{{ config.wwwroot }}}/pix/logo_smage.png" class="logo me-2" alt="SMAN 1 Gedeg" onerror="this.src='{{output.get_compact_logo_url}}'">
+            <span class="brand-text d-none d-lg-inline-block">SMAN 1 Gedeg</span>
+        </a>
+
+        {{#primarymoremenu}}
+            <div class="primary-navigation scholargate-nav-links">
+                {{> core/moremenu}}
+            </div>
+        {{/primarymoremenu}}
+
+        {{# output.page_heading_menu}}
+            <ul class="navbar-nav d-none d-md-flex my-1 px-1">
+                {{{ output.page_heading_menu }}}
+            </ul>
+        {{/output.page_heading_menu}}
+
+        <div id="usernavigation" class="navbar-nav ms-auto h-100 align-items-center">
+            {{# output.search_box }}
+                {{{ output.search_box }}}
+                <div class="divider border-start h-75 align-self-center mx-2"></div>
+            {{/output.search_box}}
+            {{#langmenu}}
+                {{> theme_boost/language_menu }}
+                <div class="divider border-start h-75 align-self-center mx-2"></div>
+            {{/langmenu}}
+            {{{ output.navbar_plugin_output }}}
+            <div class="d-flex align-items-center usermenu-container ms-2" data-region="usermenu">
+                {{#usermenu}}
+                    {{> core/user_menu }}
+                {{/usermenu}}
+            </div>
+            {{{ output.edit_switch }}}
+        </div>
+    </div>
+</nav>
+
+{{> theme_boost/primary-drawer-mobile }}

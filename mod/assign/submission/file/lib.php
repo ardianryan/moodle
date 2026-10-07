@@ -84,6 +84,12 @@ function assignsubmission_file_pluginfile($course,
         return false;
     }
 
-    // Download MUST be forced - security!
-    send_stored_file($file, 0, 0, true, $options);
+    // Allow inline viewing for PDF and safe image files.
+    $mimetype = $file->get_mimetype();
+    $isinline = in_array($mimetype, ['application/pdf', 'image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+    // For inline-viewable files (like PDFs), send Content-Disposition: inline unless download=1 is explicitly requested.
+    $explicitdownload = !empty($_GET['forcedownload']) && (isset($_GET['download']) || isset($_GET['dl']));
+    $force = $isinline ? $explicitdownload : true;
+
+    send_stored_file($file, 0, 0, $force, $options);
 }

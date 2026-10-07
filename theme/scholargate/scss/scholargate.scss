@@ -1,0 +1,1617 @@
+@import "https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&display=swap";
+
+/* ==========================================================================
+   CMS-SCHOLARGATE DESIGN TOKENS
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Onest', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Canvas soft — bento ceria */
+  --color-page: #f7f4ef;
+  --color-surface: #ffffff;
+  --color-muted: #eef2f6;
+  --color-warm: #f4e8d9;
+  --color-warm-soft: #f8f0e6;
+  --color-peach: #f4e8d9;
+  --color-peach-soft: #faf3eb;
+
+  --color-ink: #1f2937;
+  --color-body: #3f4654;
+  --color-subtle: #6b7280;
+  --color-line: #e8edf2;
+
+  --color-brand: #10b981;
+  --color-brand-dark: #059669;
+  --color-brand-soft: #ecfdf5;
+  --color-accent-sky: #0ea5e9;
+
+  --radius-card: 20px;
+  --radius-ctl: 14px;
+  --radius-bento: 24px;
+
+  --shadow-card: 0 1px 2px rgba(61, 48, 32, 0.04), 0 6px 20px rgba(61, 48, 32, 0.06);
+  --shadow-card-hover: 0 4px 8px rgba(61, 48, 32, 0.06), 0 16px 36px rgba(61, 48, 32, 0.1);
+  --shadow-header: 0 1px 0 rgba(61, 48, 32, 0.04), 0 4px 12px rgba(61, 48, 32, 0.03);
+}
+
+/* ==========================================================================
+   PAGE CANVAS & AMBIENT RADIAL LIGHTS
+   ========================================================================== */
+
+html {
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-sans) !important;
+  color: var(--color-body);
+  min-height: 100vh;
+  background-color: #f8f6f2 !important;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 15% 10%, rgba(224, 242, 254, 0.6) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 85% 15%, rgba(254, 243, 199, 0.4) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 70% at 50% 90%, rgba(204, 251, 241, 0.35) 0%, transparent 60%) !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  margin: 0;
+  padding: 0;
+}
+
+#page-wrapper {
+  background: transparent !important;
+}
+
+#page.drawers,
+body #page.drawers,
+body.limitedwidth #page.drawers,
+.pagelayout-standard #page.drawers,
+#page.drawers.show-drawer-left,
+#page.drawers.show-drawer-right {
+  background: transparent !important;
+  padding-top: 86px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-top: 0 !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+#topofscroll,
+#page-content {
+  background: transparent !important;
+}
+
+/* Container Centering & Width */
+#page.drawers .main-inner {
+  max-width: 1320px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 1.5rem 1.5rem 2.5rem !important;
+  flex: 1 0 auto !important;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.page-header-headings h1 {
+  font-family: var(--font-sans) !important;
+  color: var(--color-ink) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+/* Page Header & Action Buttons */
+#page-header {
+  margin-bottom: 24px !important;
+}
+
+.page-header-headings h1 {
+  font-size: 1.85rem !important;
+  font-weight: 800 !important;
+  color: var(--color-ink) !important;
+  letter-spacing: -0.025em !important;
+  margin: 0 !important;
+}
+
+#page-header .btn-primary,
+#page-header a.btn-primary,
+.btn-primary[href*="course/edit.php"] {
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 0.92rem !important;
+  padding: 9px 20px !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
+  transition: all 0.2s ease !important;
+}
+
+#page-header .btn-primary:hover,
+#page-header a.btn-primary:hover,
+.btn-primary[href*="course/edit.php"]:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45) !important;
+  color: #ffffff !important;
+}
+
+/* ==========================================================================
+   HEADER / NAVBAR (CLEAN FULL-WIDTH GLASSMORPHISM)
+   ========================================================================== */
+
+.navbar.fixed-top,
+.scholargate-navbar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 72px !important;
+  min-height: 72px !important;
+  padding: 0 1.5rem !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid var(--color-line) !important;
+  box-shadow: var(--shadow-header) !important;
+  z-index: 1050 !important;
+}
+
+.scholargate-nav-container {
+  max-width: 1320px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+/* Brand styling */
+.scholargate-brand {
+  margin-right: 1.5rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+}
+
+.scholargate-brand .logo {
+  height: 42px !important;
+  max-height: 42px !important;
+  width: auto;
+  border-radius: 8px;
+}
+
+.scholargate-brand .brand-text {
+  font-weight: 800 !important;
+  font-size: 1.15rem !important;
+  color: var(--color-ink) !important;
+  letter-spacing: -0.02em;
+}
+
+/* Reset primary navigation container */
+.navbar .primary-navigation,
+.scholargate-nav-links {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.navbar .primary-navigation .navigation,
+.scholargate-nav-links .navigation {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.navbar .primary-navigation .navigation .nav-link,
+.scholargate-nav-links .navigation .nav-link {
+  font-weight: 600 !important;
+  color: #4b5563 !important;
+  border-radius: 12px !important;
+  padding: 0.5rem 1.1rem !important;
+  font-size: 0.92rem !important;
+  margin: 0 3px !important;
+  transition: all 0.2s ease !important;
+}
+
+.navbar .primary-navigation .navigation .nav-link:hover,
+.scholargate-nav-links .navigation .nav-link:hover {
+  background: rgba(238, 242, 246, 0.9) !important;
+  color: var(--color-ink) !important;
+}
+
+.navbar .primary-navigation .navigation .nav-link.active {
+  background: var(--color-brand-soft) !important;
+  color: var(--color-brand-dark) !important;
+  font-weight: 700 !important;
+}
+
+/* Edit Mode Toggle Switch */
+.navbar .divider {
+  border-left: 1px solid var(--color-line) !important;
+  height: 24px !important;
+  margin: 0 12px !important;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: #10b981 !important;
+  background-color: #10b981 !important;
+}
+
+/* Navbar Toggler & Mobile Hamburger Icon */
+.navbar-toggler,
+.scholargate-navbar .navbar-toggler {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid var(--color-line);
+  color: var(--color-ink);
+  padding: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover, &:focus {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.navbar-toggler .navbar-toggler-icon,
+.scholargate-navbar .navbar-toggler-icon,
+.navbar-light .navbar-toggler-icon {
+  display: inline-block !important;
+  width: 22px !important;
+  height: 22px !important;
+  vertical-align: middle !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f2937' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='3' y1='6' x2='21' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='12' x2='21' y2='12'%3E%3C/line%3E%3Cline x1='3' y1='18' x2='21' y2='18'%3E%3C/line%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 100% !important;
+}
+
+/* Hide mobile hamburger toggler and mobile drawer on desktop */
+@media (min-width: 768px) {
+  .navbar-toggler,
+  .scholargate-navbar .navbar-toggler,
+  #theme_boost-drawers-primary,
+  .drawer-primary {
+    display: none !important;
+  }
+}
+
+/* User Menu */
+.usermenu-container .usertext {
+  font-weight: 600 !important;
+  color: var(--color-ink) !important;
+}
+
+.usermenu-container .avatar img,
+.usermenu-container .userinitials {
+  border-radius: 50% !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ==========================================================================
+   PAGE HEADER & ACTIONS
+   ========================================================================== */
+
+#page-header {
+  margin-bottom: 2rem !important;
+}
+
+#page-header .page-header-headings h1 {
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Create Course Button */
+.header-actions-container .btn-primary,
+.page-header-action-button,
+#page-header .btn-primary {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border-radius: 14px !important;
+  padding: 0.65rem 1.4rem !important;
+  font-size: 0.95rem !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.header-actions-container .btn-primary:hover,
+#page-header .btn-primary:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
+}
+
+/* ==========================================================================
+   BENTO CARDS & COURSE VIEWS
+   ========================================================================== */
+
+.card,
+.block,
+.coursebox,
+.topics li.section,
+.weeks li.section,
+.course-section,
+.login-container {
+  border-radius: var(--radius-card) !important;
+  border: 1px solid var(--color-line) !important;
+  background: #ffffff !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+/* Frontpage Coursebox Bento Card */
+.coursebox {
+  padding: 24px 28px !important;
+  margin-bottom: 20px !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.coursebox:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+.coursebox .coursename a {
+  color: var(--color-brand-dark) !important;
+  font-weight: 800 !important;
+  font-size: 1.25rem !important;
+  text-decoration: none !important;
+}
+
+.coursebox .teachers {
+  margin-top: 14px !important;
+  font-size: 0.9rem !important;
+  color: var(--color-subtle) !important;
+}
+
+.coursebox .teachers a {
+  color: var(--color-brand-dark) !important;
+  font-weight: 600 !important;
+  background: var(--color-brand-soft) !important;
+  padding: 3px 10px !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+}
+
+/* ==========================================================================
+   MY COURSES & DASHBOARD BENTO VIEW
+   ========================================================================== */
+
+/* Seamless Course Overview Block (No nested box inside box) */
+.block_myoverview.card,
+.block_myoverview.block {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.block_myoverview .card-body {
+  padding: 0 !important;
+}
+
+/* Hide redundant "Course overview" title because page title is already "My courses" */
+.block_myoverview .card-title {
+  display: none !important;
+}
+
+/* Sleek Bento Filter Toolbar */
+.block_myoverview [data-region="filter"] {
+  background: #ffffff !important;
+  border: 1px solid var(--color-line) !important;
+  border-radius: 16px !important;
+  padding: 12px 18px !important;
+  margin-bottom: 28px !important;
+  box-shadow: 0 1px 3px rgba(61, 48, 32, 0.04) !important;
+}
+
+.block_myoverview [data-region="filter"] .row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  flex-wrap: wrap !important;
+}
+
+.block_myoverview [data-region="filter"] .custom-select,
+.block_myoverview [data-region="filter"] select,
+.block_myoverview [data-region="filter"] .form-control {
+  border-radius: 10px !important;
+  border: 1.5px solid var(--color-line) !important;
+  background-color: #f8fafc !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  color: var(--color-ink) !important;
+  height: 40px !important;
+  padding: 6px 14px !important;
+  transition: all 0.18s ease !important;
+}
+
+.block_myoverview [data-region="filter"] .custom-select:focus,
+.block_myoverview [data-region="filter"] select:focus,
+.block_myoverview [data-region="filter"] .form-control:focus {
+  background-color: #ffffff !important;
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12) !important;
+  outline: none !important;
+}
+
+@media (max-width: 768px) {
+  .block_myoverview [data-region="filter"] {
+    padding: 12px 14px !important;
+    border-radius: 14px !important;
+    margin-bottom: 20px !important;
+  }
+  .block_myoverview [data-region="filter"] .row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+  .block_myoverview [data-region="filter"] .row > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    padding: 0 !important;
+  }
+  .block_myoverview [data-region="filter"] .custom-select,
+  .block_myoverview [data-region="filter"] select,
+  .block_myoverview [data-region="filter"] .form-control {
+    width: 100% !important;
+    height: 42px !important;
+    font-size: 0.92rem !important;
+  }
+}
+
+/* Course Cards Grid System */
+.card-grid .col {
+  padding: 0 12px 24px !important;
+}
+
+.card-grid .course-card,
+.dashboard-card {
+  width: 100% !important;
+  border-radius: 20px !important;
+  border: 1px solid var(--color-line) !important;
+  background: #ffffff !important;
+  box-shadow: var(--shadow-card) !important;
+  overflow: visible !important;
+  position: relative !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.26s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.26s ease !important;
+}
+
+.card-grid .course-card:hover,
+.card-grid .course-card:focus-within,
+.dashboard-card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: var(--shadow-card-hover) !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+  z-index: 20 !important;
+}
+
+/* Cover Image Area */
+.card-grid .course-card .card-img-top,
+.dashboard-card .dashboard-card-img {
+  height: 170px !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  border-top-left-radius: 19px !important;
+  border-top-right-radius: 19px !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: flex-end !important;
+  padding: 14px !important;
+}
+
+/* Subtle gradient overlay to make any course image pop */
+.card-grid .course-card .card-img-top::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.45) 100%);
+  pointer-events: none;
+  border-top-left-radius: 19px;
+  border-top-right-radius: 19px;
+}
+
+/* Card Body */
+.card-grid .course-card .course-info-container {
+  padding: 20px 22px 14px !important;
+  flex: 1 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Course Name / Title */
+.card-grid .course-card .coursename,
+.dashboard-card .coursename {
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  color: var(--color-ink) !important;
+  text-decoration: none !important;
+  line-height: 1.35 !important;
+  margin-bottom: 8px !important;
+  display: block !important;
+  transition: color 0.18s ease !important;
+}
+
+.card-grid .course-card .coursename:hover,
+.dashboard-card .coursename:hover {
+  color: var(--color-brand-dark) !important;
+}
+
+/* Category Badge */
+.card-grid .course-card .categoryname {
+  background: #ecfdf5 !important;
+  color: #059669 !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 3px 8px !important;
+  border-radius: 6px !important;
+  display: inline-block !important;
+}
+
+/* Progress bar */
+.card-grid .course-card .progress,
+.dashboard-card .progress {
+  height: 6px !important;
+  border-radius: 10px !important;
+  background-color: var(--color-muted) !important;
+  margin-top: 10px !important;
+}
+
+.card-grid .course-card .progress-bar,
+.dashboard-card .progress-bar {
+  background: linear-gradient(90deg, #10b981 0%, #0ea5e9 100%) !important;
+  border-radius: 10px !important;
+}
+
+/* Card Bottom / Menu */
+.card-grid .course-card .card-footer {
+  padding: 10px 18px 14px !important;
+  background: #ffffff !important;
+  border-top: 1px solid #f8fafc !important;
+  border-bottom-left-radius: 19px !important;
+  border-bottom-right-radius: 19px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.card-grid .course-card .card-footer.menu .btn {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #f8fafc !important;
+  border: 1px solid var(--color-line) !important;
+  color: var(--color-subtle) !important;
+  padding: 0 !important;
+  transition: all 0.18s ease !important;
+  cursor: pointer !important;
+}
+
+.card-grid .course-card .card-footer.menu .btn:hover {
+  background: #ecfdf5 !important;
+  border-color: #10b981 !important;
+  color: #059669 !important;
+}
+
+/* Action Menu Dropdown Styling */
+.card-grid .course-card .dropdown {
+  position: relative !important;
+}
+
+.card-grid .course-card .dropdown-menu {
+  position: absolute !important;
+  z-index: 1060 !important;
+  right: 0 !important;
+  left: auto !important;
+  top: 100% !important;
+  margin-top: 8px !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--color-line) !important;
+  background: #ffffff !important;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.15), 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+  padding: 8px !important;
+  min-width: 210px !important;
+}
+
+.card-grid .course-card .dropdown-menu.show {
+  display: block !important;
+}
+
+.card-grid .course-card .dropdown-item {
+  border-radius: 8px !important;
+  padding: 9px 14px !important;
+  font-size: 0.86rem !important;
+  font-weight: 600 !important;
+  color: var(--color-ink) !important;
+  display: flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  transition: all 0.15s ease !important;
+}
+
+.card-grid .course-card .dropdown-item:hover,
+.card-grid .course-card .dropdown-item:focus {
+  background: #ecfdf5 !important;
+  color: #059669 !important;
+}
+
+.card-grid .course-card .dropdown-item.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   BENTO FOOTER (FULL WIDTH ENTERPRISE PORTAL SYSTEM)
+   ========================================================================== */
+
+/* Hide default Moodle Boost Popover blank footer bar */
+.footer-popover,
+.footer-content-popover,
+[data-region="footer-container-popover"] {
+  display: none !important;
+}
+
+/* Full Width Seamless Edge-to-Edge Portal Footer */
+.scholargate-footer {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 70px 0 0 0 !important;
+  border-radius: 0 !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  border-top: 1px solid var(--color-line) !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+  padding: 52px 0 0 0 !important;
+  color: var(--color-body) !important;
+}
+
+.scholargate-footer-container {
+  max-width: 1320px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 1.5rem !important;
+}
+
+.scholargate-footer-grid {
+  display: grid !important;
+  grid-template-columns: 1.4fr 1fr 1fr 1.3fr !important;
+  gap: 36px !important;
+  margin-bottom: 36px !important;
+}
+
+@media (max-width: 992px) {
+  .scholargate-footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .scholargate-footer {
+    padding: 36px 0 0 0 !important;
+    margin: 40px 0 0 0 !important;
+  }
+  .scholargate-footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+}
+
+.scholargate-footer-col.brand-col .footer-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.scholargate-footer-col .footer-logo {
+  height: 44px;
+  width: auto;
+}
+
+.scholargate-footer-col .footer-school-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-ink);
+  letter-spacing: -0.02em;
+}
+
+.scholargate-footer-col .footer-tagline {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-subtle);
+  margin-bottom: 18px;
+}
+
+/* Social Media Pills */
+.footer-social-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-social-row .social-pill {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  text-decoration: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.footer-social-row .social-pill:hover {
+  transform: translateY(-2px);
+}
+
+.footer-social-row .social-pill.ig { background: #fdf2f8; color: #db2777; }
+.footer-social-row .social-pill.fb { background: #eef2ff; color: #4f46e5; }
+.footer-social-row .social-pill.yt { background: #fff1f2; color: #e11d48; }
+.footer-social-row .social-pill.tt { background: #f1f5f9; color: #0f172a; }
+
+.scholargate-footer-col .footer-heading {
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  color: var(--color-ink) !important;
+  margin-bottom: 16px !important;
+  letter-spacing: -0.01em;
+}
+
+.scholargate-footer-col .footer-links {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.scholargate-footer-col .footer-links li {
+  margin-bottom: 10px;
+}
+
+.scholargate-footer-col .footer-links a {
+  color: var(--color-subtle) !important;
+  font-size: 0.92rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  transition: color 0.18s ease;
+}
+
+.scholargate-footer-col .footer-links a:hover {
+  color: var(--color-brand-dark) !important;
+}
+
+.footer-contact-info .contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--color-subtle);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.footer-contact-info .contact-item i {
+  margin-top: 3px;
+  color: #10b981;
+}
+
+/* Full-Width Bottom Bar */
+.scholargate-footer-bottom {
+  border-top: 1px solid var(--color-line);
+  margin: 36px 0 0 !important;
+  padding: 20px 0 !important;
+  background: #fafaf9;
+  width: 100% !important;
+}
+
+.footer-bottom-inner {
+  max-width: 1320px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 1.5rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--color-subtle);
+}
+
+@media (max-width: 768px) {
+  .footer-bottom-inner {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+   SCHOLARGATE LOGIN PAGE (BENTO AUTH)
+   ========================================================================== */
+
+/* Remove Boost default gradients and borders on login page */
+.pagelayout-login,
+.pagelayout-login body,
+.pagelayout-login #page-wrapper,
+.pagelayout-login #page,
+.pagelayout-login #topofscroll,
+.pagelayout-login #page-content,
+.pagelayout-login #region-main-box,
+.pagelayout-login #region-main {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.login-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: auto !important;
+  padding: 42px 16px 20px !important;
+}
+
+.login-container {
+  max-width: 460px !important;
+  width: 100% !important;
+  padding: 38px 34px !important;
+  border-radius: var(--radius-bento) !important;
+  background: #ffffff !important;
+  border: 1px solid var(--color-line) !important;
+  box-shadow: 0 10px 30px rgba(61, 48, 32, 0.06), 0 1px 4px rgba(61, 48, 32, 0.04) !important;
+  margin-bottom: 0 !important;
+}
+
+/* Pull footer up closer on login page */
+.pagelayout-login .scholargate-footer {
+  margin-top: 24px !important;
+  padding-top: 36px !important;
+}
+
+@media (max-width: 576px) {
+  .login-wrapper {
+    padding: 24px 12px 16px !important;
+  }
+  .login-container {
+    padding: 26px 20px !important;
+    border-radius: 20px !important;
+  }
+}
+
+.login-brand-logo {
+  height: 54px;
+  width: auto;
+  border-radius: 12px;
+}
+
+.login-brand-title {
+  font-size: 1.35rem !important;
+  font-weight: 800 !important;
+  color: var(--color-ink) !important;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px !important;
+}
+
+.login-brand-subtitle {
+  font-size: 0.88rem;
+  color: var(--color-subtle);
+  margin-bottom: 0;
+}
+
+/* Primary SMAGE ID CTA Button */
+.smage-id-auth-box {
+  width: 100%;
+}
+
+.btn-smage-id {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+  color: #ffffff !important;
+  padding: 14px 18px !important;
+  border-radius: 16px !important;
+  text-decoration: none !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border: none !important;
+}
+
+.btn-smage-id:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 22px rgba(16, 185, 129, 0.45) !important;
+  color: #ffffff !important;
+}
+
+.btn-smage-id-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-smage-id-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #ffffff;
+}
+
+.btn-smage-id-text {
+  text-align: left;
+}
+
+.btn-smage-id-title {
+  display: block;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.btn-smage-id-desc {
+  display: block;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.btn-smage-id-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  opacity: 0.9;
+  transition: transform 0.2s ease;
+}
+
+.btn-smage-id:hover .btn-smage-id-arrow {
+  transform: translateX(4px);
+}
+
+/* Divider Pill */
+.login-divider-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0 16px;
+}
+
+.login-divider-pill .login-divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-line);
+}
+
+.login-divider-pill .login-divider-text {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-subtle);
+}
+
+/* Collapsible Local Login Toggle */
+.btn-toggle-local {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 12px 16px !important;
+  border-radius: 14px !important;
+  border: 1.5px dashed #cbd5e1 !important;
+  background: #f8fafc !important;
+  color: var(--color-body) !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-toggle-local:hover {
+  background: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+  color: var(--color-ink) !important;
+}
+
+.btn-toggle-local .btn-toggle-label {
+  display: flex;
+  align-items: center;
+}
+
+.btn-toggle-local .toggle-chevron {
+  font-size: 0.8rem;
+  color: var(--color-subtle);
+  transition: transform 0.25s ease;
+}
+
+/* Local Login Form */
+.local-login-collapse {
+  padding: 18px 16px;
+  background: #fafaf9;
+  border-radius: 16px;
+  border: 1px solid var(--color-line);
+  animation: fadeInDown 0.25s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon .input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.form-control-scholargate {
+  padding-left: 40px !important;
+  border-radius: 12px !important;
+  height: 44px !important;
+  border: 1.5px solid var(--color-line) !important;
+  font-size: 0.9rem !important;
+  background: #ffffff !important;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease !important;
+}
+
+.form-control-scholargate:focus {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15) !important;
+}
+
+.forgot-link {
+  color: var(--color-brand-dark) !important;
+  text-decoration: none !important;
+  font-weight: 600;
+}
+
+.forgot-link:hover {
+  text-decoration: underline !important;
+}
+
+.btn-primary-scholargate {
+  background: #1f2937 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  height: 44px !important;
+  font-weight: 700 !important;
+  font-size: 0.92rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  transition: background 0.18s ease !important;
+}
+
+.btn-primary-scholargate:hover {
+  background: #111827 !important;
+  color: #ffffff !important;
+}
+
+/* Explicitly hide guest login wherever it appears */
+#guestlogin,
+.login-guest,
+.login-divider:has(+ #guestlogin),
+.login-heading:has(+ #guestlogin) {
+  display: none !important;
+}
+
+/* ==========================================================================
+   SCHOLARGATE MOBILE & TOUCH OPTIMIZATION SUITE (UI/UX PRO MAX)
+   ========================================================================== */
+
+/* 1. Global Viewport & Touch Ergonomics */
+html,
+body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  -webkit-tap-highlight-color: rgba(16, 185, 129, 0.15);
+}
+
+/* Interactive touch target baseline */
+button,
+a,
+input,
+select,
+.btn {
+  touch-action: manipulation;
+}
+
+/* 2. Responsive Navbar on Mobile & Tablet */
+@media (max-width: 768px) {
+  .navbar.fixed-top,
+  .scholargate-navbar {
+    height: 64px !important;
+    min-height: 64px !important;
+    padding: 0 14px !important;
+  }
+
+  #page.drawers,
+  body #page.drawers,
+  body.limitedwidth #page.drawers {
+    padding-top: 76px !important;
+  }
+
+  .scholargate-brand {
+    margin-right: 0.5rem !important;
+    gap: 8px !important;
+  }
+
+  .scholargate-brand .logo {
+    height: 34px !important;
+    max-height: 34px !important;
+  }
+
+  .scholargate-brand .brand-text {
+    font-size: 0.98rem !important;
+    white-space: nowrap !important;
+  }
+
+  /* Hamburger & Navigation Drawer Toggler */
+  .navbar .drawer-toggler .btn,
+  .navbar .btn-icon,
+  [data-action="toggle-drawer"],
+  .navbar-toggler {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #ffffff !important;
+    border: 1px solid var(--color-line) !important;
+    color: var(--color-ink) !important;
+    padding: 0 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .navbar-toggler .navbar-toggler-icon {
+    display: inline-block !important;
+    width: 22px !important;
+    height: 22px !important;
+    vertical-align: middle !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f2937' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='3' y1='6' x2='21' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='12' x2='21' y2='12'%3E%3C/line%3E%3Cline x1='3' y1='18' x2='21' y2='18'%3E%3C/line%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 100% !important;
+  }
+
+  /* Mobile Icons Spacing (Notifications, Chat, User) */
+  .nav.navbar-nav {
+    gap: 4px !important;
+  }
+
+  .nav.navbar-nav .popover-region {
+    margin: 0 !important;
+  }
+
+  .nav.navbar-nav .popover-region .nav-link {
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+  }
+
+  .usermenu-container .usertext {
+    display: none !important;
+  }
+
+  .usermenu-container .avatar img,
+  .usermenu-container .userinitials {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  /* Main Container Mobile Padding */
+  #page.drawers .main-inner {
+    padding: 0.85rem 14px 2rem !important;
+  }
+
+  /* Mobile Typography */
+  .page-header-headings h1 {
+    font-size: 1.45rem !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  #page-header {
+    margin-bottom: 16px !important;
+  }
+
+  /* Course cards touch-friendly adjustments */
+  .card-grid .col {
+    padding: 0 0 18px !important;
+  }
+
+  .card-grid .course-card {
+    border-radius: 18px !important;
+  }
+
+  .card-grid .course-card .card-img-top,
+  .dashboard-card .dashboard-card-img {
+    height: 155px !important;
+    border-top-left-radius: 17px !important;
+    border-top-right-radius: 17px !important;
+  }
+
+  .card-grid .course-card .course-info-container {
+    padding: 16px 16px 12px !important;
+  }
+
+  .card-grid .course-card .coursename {
+    font-size: 1.05rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  .card-grid .course-card .card-footer {
+    padding: 8px 14px 12px !important;
+  }
+
+  .card-grid .course-card .card-footer.menu .btn {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  /* Prevent dropdown from overflowing right screen edge on phone */
+  .card-grid .course-card .dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+    max-width: calc(100vw - 32px) !important;
+  }
+}
+
+/* 3. Course Section & Activity Items on Mobile (Clean List UI) */
+.course-section,
+.topics li.section,
+.weeks li.section {
+  padding: 18px 16px !important;
+  margin-bottom: 16px !important;
+  border-radius: 18px !important;
+}
+
+@media (max-width: 576px) {
+  .course-section,
+  .topics li.section,
+  .weeks li.section {
+    padding: 14px 12px !important;
+    border-radius: 16px !important;
+  }
+
+  .section-title {
+    font-size: 1.15rem !important;
+  }
+}
+
+/* Activity item touch card */
+.activity-item {
+  border-radius: 14px !important;
+  padding: 12px 14px !important;
+  margin-bottom: 10px !important;
+  transition: background-color 0.18s ease, transform 0.18s ease !important;
+}
+
+.activity-item:hover {
+  background-color: #f8fafc !important;
+}
+
+/* Activity icon container */
+.activity-item .activityiconcontainer {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-right: 12px !important;
+  flex-shrink: 0 !important;
+}
+
+.activity-item .activity-info {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 6px !important;
+}
+
+/* Badges & Restriction Tags */
+.activity-item .badge,
+.section .availabilityinfo .badge,
+.activity-item .automatic-completion-conditions {
+  border-radius: 8px !important;
+  font-size: 0.76rem !important;
+  font-weight: 600 !important;
+  padding: 4px 9px !important;
+  line-height: 1.3 !important;
+}
+
+/* 4. Responsive Tables & Student Submissions */
+.generaltable,
+.table-responsive,
+.no-overflow {
+  display: block !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  border-radius: 14px !important;
+}
+
+.generaltable {
+  margin-bottom: 16px !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+.generaltable th {
+  background: #f8fafc !important;
+  color: var(--color-ink) !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  border-bottom: 1px solid var(--color-line) !important;
+  padding: 12px 14px !important;
+  white-space: nowrap !important;
+}
+
+.generaltable td {
+  padding: 12px 14px !important;
+  border-bottom: 1px solid var(--color-line) !important;
+  font-size: 0.88rem !important;
+}
+
+/* 5. Mobile Drawer Menu Polish */
+.drawer {
+  background: #ffffff !important;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+.drawer .drawerheader {
+  height: 64px !important;
+  padding: 0 16px !important;
+  border-bottom: 1px solid var(--color-line) !important;
+  background: #ffffff !important;
+}
+
+.drawer .drawerheader .drawertitle {
+  font-weight: 800 !important;
+  color: var(--color-ink) !important;
+}
+
+.drawer .drawercontent {
+  padding: 14px 12px !important;
+}
+
+/* Course Index List Items inside Drawer */
+.courseindex .courseindex-item {
+  border-radius: 10px !important;
+  padding: 8px 12px !important;
+  margin-bottom: 4px !important;
+  transition: all 0.15s ease !important;
+  color: var(--color-ink) !important;
+}
+
+.courseindex .courseindex-item a,
+.courseindex .courseindex-item .courseindex-link {
+  color: var(--color-ink) !important;
+  text-decoration: none !important;
+}
+
+.courseindex .courseindex-item:hover,
+.courseindex .courseindex-item:focus {
+  background: #f1f5f9 !important;
+}
+
+.courseindex .courseindex-item:hover a,
+.courseindex .courseindex-item:hover .courseindex-link {
+  color: var(--color-brand-dark) !important;
+}
+
+/* Active / Current Page Item in Drawer */
+.courseindex .courseindex-item.pageitem,
+.courseindex .courseindex-section.pageitem {
+  background: #ecfdf5 !important;
+  border-left: 3px solid #10b981 !important;
+}
+
+.courseindex .courseindex-item.pageitem,
+.courseindex .courseindex-item.pageitem a,
+.courseindex .courseindex-item.pageitem .courseindex-link,
+.courseindex .courseindex-item.pageitem .courseindex-chevron,
+.courseindex .courseindex-section.pageitem,
+.courseindex .courseindex-section.pageitem a,
+.courseindex .courseindex-section.pageitem .courseindex-link,
+.courseindex .courseindex-section.pageitem .courseindex-chevron {
+  color: #065f46 !important;
+  font-weight: 700 !important;
+}
+
+/* 6. Mobile Touch Buttons */
+.btn {
+  border-radius: 12px !important;
+}
+
+@media (max-width: 576px) {
+  .btn-primary,
+  .btn-secondary {
+    min-height: 42px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
+/* ==========================================================================
+   SCHOLARGATE UNIVERSAL PDF PREVIEW MODAL
+   ========================================================================== */
+.scholargate-pdf-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 105000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  box-sizing: border-box;
+}
+
+.scholargate-pdf-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.scholargate-pdf-dialog {
+  position: relative;
+  z-index: 105001;
+  width: 100%;
+  max-width: 1150px;
+  height: 90vh;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: sgModalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes sgModalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.scholargate-pdf-header {
+  height: 60px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-line);
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+
+.scholargate-pdf-title-wrap {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  font-weight: 700;
+  color: var(--color-ink);
+  font-size: 1rem;
+}
+
+.scholargate-pdf-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 450px;
+}
+
+.scholargate-pdf-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.scholargate-pdf-body {
+  flex: 1;
+  position: relative;
+  background: #525659;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scholargate-pdf-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.scholargate-pdf-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+
