@@ -24,7 +24,11 @@ class client {
         global $CFG;
 
         $this->baseurl = rtrim($baseurl ?: get_config('local_scholargate_sync', 'api_url') ?: 'https://portal.sman1gedeg.sch.id', '/');
-        $this->apikey  = $apikey ?: get_config('local_scholargate_sync', 'api_key') ?: '316dc5de90e28e81c65804abf65974a49105fe98ffec44aa009ed50a964d2f5d';
+        $this->apikey  = $apikey ?: get_config('local_scholargate_sync', 'api_key') ?: '';
+
+        if (empty($this->apikey)) {
+            throw new \moodle_exception('error_no_api_key', 'local_scholargate_sync', '', null, 'ScholarGate API Key is not configured in settings.');
+        }
     }
 
     /**

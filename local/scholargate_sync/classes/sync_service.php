@@ -104,10 +104,10 @@ class sync_service {
     public static function apply_member_data_to_user(\stdClass $user, array $data): void {
         global $DB;
 
-        // 1. Tangani Penyesuaian Email (Email di SSO Pusat Berubah)
+        // 1. Handle email update if changed in ScholarGate
         $ssoemail = trim($data['google_email'] ?? $data['email_pribadi'] ?? '');
-        if (!empty($ssoemail) && strtolower($user->email) !== strtolower($ssoemail)) {
-            // Cek apakah email baru belum dipakai user Moodle lain
+        if (!empty($ssoemail) && validate_email($ssoemail) && strtolower($user->email) !== strtolower($ssoemail)) {
+            // Ensure new email is not already taken by another active user.
             $exists = $DB->record_exists_select('user', 'email = :email AND id != :id AND deleted = 0', [
                 'email' => $ssoemail,
                 'id' => $user->id
