@@ -10,13 +10,13 @@
         <div class="login-brand-header text-center mb-4">
             <img src="{{logourl}}" class="login-brand-logo mb-3" alt="{{sitename}}"/>
             <h2 class="login-brand-title">{{sitename}}</h2>
-            <p class="login-brand-subtitle">Portal Pembelajaran Digital SMA Negeri 1 Gedeg</p>
+            <p class="login-brand-subtitle">Digital Learning Portal - SMA Negeri 1 Gedeg</p>
         </div>
     {{/logourl}}
     {{^logourl}}
         <div class="login-brand-header text-center mb-4">
             <h2 class="login-brand-title">{{sitename}}</h2>
-            <p class="login-brand-subtitle">Portal Pembelajaran Digital SMA Negeri 1 Gedeg</p>
+            <p class="login-brand-subtitle">Digital Learning Portal - SMA Negeri 1 Gedeg</p>
         </div>
     {{/logourl}}
 
@@ -32,9 +32,7 @@
         <div class="alert alert-info mb-3" id="logininfomessage" role="status">{{info}}</div>
     {{/info}}
 
-    {{! ========================================== }}
-    {{! 1. PRIMARY: LOGIN DENGAN SMAGE ID (TOP)   }}
-    {{! ========================================== }}
+    {{! Primary identity provider authentication }}
     {{#hasidentityproviders}}
         <div class="smage-id-auth-box mb-4">
             {{#identityproviders}}
@@ -67,9 +65,7 @@
         </div>
     {{/hasidentityproviders}}
 
-    {{! ========================================== }}
-    {{! 2. SECONDARY: HIDDEN USERNAME/PASSWORD    }}
-    {{! ========================================== }}
+    {{! Secondary local credentials authentication }}
     {{#showloginform}}
         <div class="login-collapsible-wrapper">
             <div class="login-divider-pill mb-3">
@@ -146,7 +142,7 @@
     {{/hasinstructions}}
     {{#cansignup}}
         <div class="login-signup mt-3">
-            <a class="btn btn-outline-secondary btn-block btn-sm rounded-pill" href="{{signupurl}}">{{#str}}startsignup{{/str}}</a>
+            <a class="btn btn-outline-secondary btn-block btn-sm rounded-lg" href="{{signupurl}}">{{#str}}startsignup{{/str}}</a>
         </div>
     {{/cansignup}}
 

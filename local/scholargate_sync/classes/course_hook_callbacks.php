@@ -24,13 +24,13 @@ class course_hook_callbacks {
         $course = $hook->formwrapper->get_course();
         $courseid = !empty($course->id) ? (int)$course->id : 0;
 
-        // Ambil semua cohort rombel kelas dari database Moodle
+        // Fetch class cohorts from Moodle database.
         $cohorts = $DB->get_records_select('cohort', "idnumber LIKE 'kelas_%'", null, 'name ASC');
         if (empty($cohorts)) {
             return;
         }
 
-        // Hitung jumlah siswa di setiap cohort
+        // Count active students in each cohort.
         $counts = $DB->get_records_sql("
             SELECT cohortid, COUNT(id) as studentcount
             FROM {cohort_members}
@@ -66,7 +66,7 @@ class course_hook_callbacks {
         $mform->addElement('advcheckbox', 'scholargate_create_groups', get_string('create_groups', 'local_scholargate_sync'), get_string('create_groups_desc', 'local_scholargate_sync'));
         $mform->setDefault('scholargate_create_groups', 1);
 
-        // Jika mode edit kursus yang sudah ada, tandai cohort yang sudah terdaftar
+        // Mark existing enrolled cohorts when editing an existing course.
         if ($courseid > 0) {
             $existing = $DB->get_records('enrol', ['courseid' => $courseid, 'enrol' => 'cohort']);
             $currentcohorts = [];
@@ -136,7 +136,7 @@ class course_hook_callbacks {
                 continue;
             }
 
-            // Cek apakah cohort sudah terdaftar di kursus ini
+            // Verify if cohort is already enrolled in this course.
             $exists = $DB->get_record('enrol', [
                 'courseid' => $courseid,
                 'enrol' => 'cohort',
@@ -152,7 +152,7 @@ class course_hook_callbacks {
                             'courseid' => $courseid,
                             'name' => $cohort->name,
                             'idnumber' => $cohort->idnumber,
-                            'description' => 'Grup rombel otomatis ' . $cohort->name,
+                            'description' => 'Automated cohort group for ' . $cohort->name,
                             'descriptionformat' => FORMAT_HTML,
                         ];
                         $groupid = groups_create_group($newgroup);
@@ -162,11 +162,11 @@ class course_hook_callbacks {
                     }
                 }
 
-                // Tambahkan instance enrol_cohort ke kursus
+                // Add enrol_cohort instance and map to course group.
                 $fields = [
                     'customint1' => $cid,
-                    'roleid' => 5, // Siswa (Student)
-                    'customint2' => $groupid, // Sambungkan langsung ke grup rombel
+                    'roleid' => 5, // Student role.
+                    'customint2' => $groupid, // Linked cohort group.
                 ];
 
                 $enrolplugin->add_instance($course, $fields);
@@ -174,7 +174,7 @@ class course_hook_callbacks {
             }
         }
 
-        // Jalankan sinkronisasi anggota cohort ke kursus secara langsung
+        // Immediately synchronize cohort members into course.
         if ($enrolledcount > 0) {
             $trace = new \null_progress_trace();
             enrol_cohort_sync($trace, $courseid);
