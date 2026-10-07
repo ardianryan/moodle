@@ -19,7 +19,7 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_configpasswordunmask('local_scholargate_sync/api_key',
         get_string('api_key', 'local_scholargate_sync'),
         get_string('api_key_desc', 'local_scholargate_sync'),
-        '316dc5de90e28e81c65804abf65974a49105fe98ffec44aa009ed50a964d2f5d'));
+        ''));
 
     // Register / Helpdesk URL (Rule 3)
     $settings->add(new admin_setting_configtext('local_scholargate_sync/register_url',

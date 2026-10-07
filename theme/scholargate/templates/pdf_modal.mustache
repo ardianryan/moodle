@@ -7,16 +7,16 @@
         <div class="scholargate-pdf-header">
             <div class="scholargate-pdf-title-wrap">
                 <i class="fa fa-file-pdf-o text-danger me-2" aria-hidden="true"></i>
-                <span id="scholargate-pdf-title" class="scholargate-pdf-title">Dokumen PDF</span>
+                <span id="scholargate-pdf-title" class="scholargate-pdf-title">PDF Document</span>
             </div>
             <div class="scholargate-pdf-actions">
-                <a id="scholargate-pdf-newtab" href="#" target="_blank" class="btn btn-sm btn-outline-secondary" title="Buka di Tab Baru">
-                    <i class="fa fa-external-link me-1"></i> Buka Tab Baru
+                <a id="scholargate-pdf-newtab" href="#" target="_blank" class="btn btn-sm btn-outline-secondary" title="Open in New Tab">
+                    <i class="fa fa-external-link me-1"></i> Open in New Tab
                 </a>
-                <a id="scholargate-pdf-download" href="#" class="btn btn-sm btn-success text-white" title="Unduh Berkas">
-                    <i class="fa fa-download me-1"></i> Unduh
+                <a id="scholargate-pdf-download" href="#" class="btn btn-sm btn-success text-white" title="Download Document">
+                    <i class="fa fa-download me-1"></i> Download
                 </a>
-                <button type="button" id="scholargate-pdf-close" class="btn btn-sm btn-light border ms-2" aria-label="Tutup">
+                <button type="button" id="scholargate-pdf-close" class="btn btn-sm btn-light border ms-2" aria-label="Close">
                     <i class="fa fa-times"></i>
                 </button>
             </div>
@@ -24,9 +24,9 @@
         <div class="scholargate-pdf-body">
             <div id="scholargate-pdf-loader" class="scholargate-pdf-loader">
                 <div class="spinner-border text-success" role="status">
-                    <span class="sr-only">Memuat pratinjau...</span>
+                    <span class="sr-only">Loading preview...</span>
                 </div>
-                <div class="mt-2 text-muted small font-weight-medium">Memuat pratinjau dokumen...</div>
+                <div class="mt-2 text-muted small font-weight-medium">Loading document preview...</div>
             </div>
             <iframe id="scholargate-pdf-frame" class="scholargate-pdf-frame" src="about:blank" allowfullscreen></iframe>
         </div>
@@ -47,16 +47,19 @@
 
         if (!modal || !frame) return;
 
-        function openPdf(url, filename) {
             var viewUrl;
             try {
                 var u = new URL(url, window.location.origin);
+                // Security: Strictly enforce same-origin and safe protocol (http/https) to prevent iframe injection
+                if ((u.protocol !== 'http:' && u.protocol !== 'https:') || u.origin !== window.location.origin) {
+                    return;
+                }
                 u.searchParams.delete('forcedownload');
                 u.searchParams.delete('dl');
                 u.searchParams.delete('download');
                 viewUrl = u.toString();
             } catch(e) {
-                viewUrl = url.replace(/([?&])forcedownload=1(&|$)/g, '$1').replace(/([?&])dl=1(&|$)/g, '$1');
+                return;
             }
 
             var dlUrl;
@@ -69,7 +72,7 @@
                 dlUrl = viewUrl + (viewUrl.indexOf('?') === -1 ? '?' : '&') + 'forcedownload=1&dl=1';
             }
 
-            titleElem.textContent = filename || 'Pratinjau Dokumen PDF';
+            titleElem.textContent = filename || 'PDF Document';
             newtabBtn.href = viewUrl;
             downloadBtn.href = dlUrl;
 
