@@ -84,12 +84,30 @@ if ($mimetype == 'document/unknown') {
     $mimetype = 'text/html';
 }
 
-// We can not use our popups here, because the url may be arbitrary, see MDL-9823.
-$clicktoopen = '<a href="'.$sitepolicy.'" onclick="this.target=\'_blank\'">'.$strpolicyagreementclick.'</a>';
+if (preg_match('!^https?://!i', $sitepolicy)) {
+    $isid = (current_language() === 'id');
+    $policydesc = $isid
+        ? 'Kebijakan privasi dan ketentuan layanan dikelola secara terpusat pada portal resmi sekolah. Silakan baca dokumen kebijakan lengkap melalui tautan di bawah ini sebelum melanjutkan:'
+        : 'The site policy and privacy terms are managed centrally on the official school portal. Please review the complete policy document using the link below before proceeding:';
+    $tabinfo = $isid
+        ? 'Dokumen kebijakan akan terbuka di tab baru browser Anda.'
+        : 'The policy document will open in a new browser tab.';
 
-echo '<div class="noticebox">';
-echo resourcelib_embed_general($sitepolicy, $strpolicyagreement, $clicktoopen, $mimetype);
-echo '</div>';
+    echo '<div class="card p-4 p-md-5 mb-4 text-center shadow-sm" style="background: #ffffff; border-radius: var(--radius-card, 18px); border: 1px solid var(--color-line, #e8edf2);">';
+    echo '<div class="mb-3" style="color: #059669; font-size: 2.5rem;"><i class="fa fa-shield"></i></div>';
+    echo '<h4 class="fw-bold mb-2">' . format_string($SITE->fullname) . ' &bull; ' . $strpolicyagreement . '</h4>';
+    echo '<p class="text-muted mb-4" style="max-width: 580px; margin-inline: auto; font-size: 0.95rem; line-height: 1.6;">' . $policydesc . '</p>';
+    echo '<div class="mb-3">';
+    echo '<a href="' . s($sitepolicy) . '" target="_blank" rel="noopener noreferrer" class="btn btn-primary px-4 py-2" style="border-radius: 12px; font-weight: 700; background: linear-gradient(135deg, #059669 0%, #10b981 100%); border: none;">';
+    echo '<i class="fa fa-external-link mr-2 me-2"></i>' . $strpolicyagreementclick . '</a>';
+    echo '</div>';
+    echo '<span class="text-muted small"><i class="fa fa-info-circle mr-1 me-1"></i>' . $tabinfo . '</span>';
+    echo '</div>';
+} else {
+    echo '<div class="noticebox">';
+    echo resourcelib_embed_general($sitepolicy, $strpolicyagreement, $clicktoopen, $mimetype);
+    echo '</div>';
+}
 
 $formcontinue = new single_button(new moodle_url('policy.php', array('agree' => 1)), get_string('yes'));
 $formcancel = new single_button(new moodle_url($CFG->wwwroot.'/login/logout.php', array('agree' => 0)), get_string('no'));
