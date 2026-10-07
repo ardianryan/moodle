@@ -1,0 +1,280 @@
+{{!
+    CMS-Scholargate Frontpage Portal Template (Unauthenticated / Guest Landing)
+    Based on the Bento Design System and CMS Scholargate Architecture
+}}
+<div class="scholargate-portal-wrapper">
+    <!-- 1. Hero Section -->
+    <section class="portal-hero-section">
+        <div class="portal-hero-grid">
+            <div class="portal-hero-content">
+                <div class="portal-eyebrow-badge">
+                    <span class="badge-dot"></span>
+                    <span>Portal Pembelajaran Digital &bull; SMAN 1 Gedeg</span>
+                </div>
+                <h1 class="portal-hero-title">
+                    Gerbang Belajar Digital & Asesmen Terpadu
+                </h1>
+                <p class="portal-hero-lead">
+                    Pusat pembelajaran interaktif SMA Negeri 1 Gedeg. Akses modul pembelajaran adaptif, pelaksanaan Computer-Based Test (CBT), penugasan digital, dan pelacakan capaian kompetensi dengan satu akun identitas <strong>SMAGE ID</strong>.
+                </p>
+
+                <div class="portal-hero-actions">
+                    <a href="{{{ loginurl }}}" class="btn-portal-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                        <span>Masuk dengan SMAGE ID</span>
+                    </a>
+                    <a href="#frontpage-available-courses" class="btn-portal-secondary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                        <span>Jelajahi Kelas Terbuka</span>
+                    </a>
+                </div>
+
+                <div class="portal-trust-pills">
+                    <div class="trust-pill">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span>CBT Aman & Terproteksi</span>
+                    </div>
+                    <div class="trust-pill">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        <span>Kurikulum Merdeka</span>
+                    </div>
+                    <div class="trust-pill">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <span>SSO SMAGE ID Terpadu</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bento Card: Info Status & Branding -->
+            <div class="portal-hero-card-col">
+                <div class="hero-bento-card">
+                    <div class="card-glass-header">
+                        <div class="school-logo-badge">
+                            <img src="{{{ config.wwwroot }}}/pix/logo_smage.png" alt="Logo SMAN 1 Gedeg" class="school-badge-img" onerror="this.style.display='none'">
+                            <div>
+                                <h3 class="school-name-text">SMA Negeri 1 Gedeg</h3>
+                                <p class="school-tagline-text">Kabupaten Mojokerto, Jawa Timur</p>
+                            </div>
+                        </div>
+                        <span class="system-status-chip">
+                            <span class="live-dot"></span>
+                            Online
+                        </span>
+                    </div>
+
+                    <div class="bento-card-body">
+                        <div class="portal-stat-grid">
+                            <div class="stat-box">
+                                <span class="stat-number">32</span>
+                                <span class="stat-label">Rombel Terintegrasi</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number">1.000+</span>
+                                <span class="stat-label">Siswa Aktif</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number">70+</span>
+                                <span class="stat-label">Dewan Pendidik</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number">A</span>
+                                <span class="stat-label">Akreditasi Unggul</span>
+                            </div>
+                        </div>
+
+                        <div class="hero-card-callout">
+                            <div class="callout-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            </div>
+                            <div class="callout-text">
+                                <strong>Tahun Ajaran 2025/2026</strong>
+                                <p>Sistem pembelajaran digital aktif penuh untuk seluruh jenjang Fase E dan Fase F.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Kegunaan & Fitur Unggulan LMS (Bento Grid) -->
+    <section class="portal-features-section">
+        <div class="section-header-row">
+            <div>
+                <span class="section-eyebrow">FITUR & KEGUNAAN LMS</span>
+                <h2 class="section-title">Ekosistem Belajar Modern & Terstruktur</h2>
+                <p class="section-subtitle">Dukungan teknologi komprehensif untuk mendampingi alur pembelajaran harian guru dan peserta didik.</p>
+            </div>
+        </div>
+
+        <div class="portal-bento-grid">
+            <!-- Bento 1: Modul Adaptif -->
+            <div class="bento-feature-tile tile-sky">
+                <div class="tile-icon-bubble bubble-sky">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                </div>
+                <div class="tile-content">
+                    <span class="tile-tag tag-sky">Pembelajaran Mandiri</span>
+                    <h3 class="tile-title">Ruang Modul & Materi Ajar</h3>
+                    <p class="tile-desc">Akses modul pembelajaran multimedia, video materi, dan lembar kerja siswa yang tersusun terstruktur per capaian kompetensi dasar.</p>
+                </div>
+            </div>
+
+            <!-- Bento 2: CBT & Asesmen -->
+            <div class="bento-feature-tile tile-mint">
+                <div class="tile-icon-bubble bubble-mint">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <div class="tile-content">
+                    <span class="tile-tag tag-mint">Asesmen Terstandar</span>
+                    <h3 class="tile-title">CBT & Evaluasi Terproteksi</h3>
+                    <p class="tile-desc">Ujian formatif dan sumatif berbasis komputer dengan pengacakan butir soal, proteksi durasi waktu, serta evaluasi hasil belajar yang transparan.</p>
+                </div>
+            </div>
+
+            <!-- Bento 3: Penugasan & Portofolio -->
+            <div class="bento-feature-tile tile-violet">
+                <div class="tile-icon-bubble bubble-violet">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                </div>
+                <div class="tile-content">
+                    <span class="tile-tag tag-violet">Portofolio Siswa</span>
+                    <h3 class="tile-title">Penugasan & Rekam Jejak Karya</h3>
+                    <p class="tile-desc">Pengumpulan proyek digital terstruktur, rubrik penilaian transparan dari dewan guru, dan pemantauan riwayat capaian siswa secara berkelanjutan.</p>
+                </div>
+            </div>
+
+            <!-- Bento 4: Akun Tunggal SMAGE ID -->
+            <div class="bento-feature-tile tile-amber">
+                <div class="tile-icon-bubble bubble-amber">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div class="tile-content">
+                    <span class="tile-tag tag-amber">Single Sign-On</span>
+                    <h3 class="tile-title">Akses Satu Akun SMAGE ID</h3>
+                    <p class="tile-desc">Cukup gunakan satu akun identitas resmi sekolah untuk mengakses LMS Moodle, presensi digital, perpustakaan, dan portal layanan SMAN 1 Gedeg.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Profil Singkat Sekolah (SMASAGE Profile) -->
+    <section class="portal-profile-section">
+        <div class="profile-bento-wrapper">
+            <div class="profile-content-col">
+                <span class="section-eyebrow">PROFIL SATUAN PENDIDIKAN</span>
+                <h2 class="profile-title">SMA Negeri 1 Gedeg (SMASAGE)</h2>
+                <blockquote class="profile-quote">
+                    &ldquo;Mewujudkan insan yang berakhlak mulia, unggul dalam prestasi, terampil dalam teknologi, dan peduli terhadap kelestarian lingkungan hidup.&rdquo;
+                </blockquote>
+                <p class="profile-body-text">
+                    SMA Negeri 1 Gedeg berkomitmen menghadirkan ekosistem pembelajaran yang adaptif terhadap transformasi digital, mendorong nalar kritis, dan membekali peserta didik dengan kompetensi abad ke-21 tanpa meninggalkan nilai luhur budi pekerti.
+                </p>
+
+                <div class="profile-meta-pills">
+                    <span class="profile-pill"><i class="fa fa-map-marker text-emerald mr-1"></i> Gedek Wetan, Kec. Gedek, Mojokerto</span>
+                    <span class="profile-pill"><i class="fa fa-certificate text-emerald mr-1"></i> NPSN: 20502728</span>
+                    <span class="profile-pill"><i class="fa fa-star text-emerald mr-1"></i> Akreditasi A (Unggul)</span>
+                </div>
+            </div>
+
+            <div class="profile-action-col">
+                <div class="profile-highlight-box">
+                    <h4 class="highlight-box-title">Pilar Pembelajaran Digital</h4>
+                    <ul class="highlight-list">
+                        <li>
+                            <span class="list-bullet">✓</span>
+                            <span><strong>Inklusif:</strong> Akses materi dan penugasan fleksibel dari berbagai perangkat.</span>
+                        </li>
+                        <li>
+                            <span class="list-bullet">✓</span>
+                            <span><strong>Objektif:</strong> Standarisasi rubrik penilaian dan bank soal kurikulum terpadu.</span>
+                        </li>
+                        <li>
+                            <span class="list-bullet">✓</span>
+                            <span><strong>Kolaboratif:</strong> Interaksi terarah antara peserta didik, guru mata pelajaran, dan wali kelas.</span>
+                        </li>
+                    </ul>
+                    <a href="https://sman1gedeg.sch.id" target="_blank" rel="noopener noreferrer" class="btn-profile-link">
+                        <span>Kunjungi Website Resmi Sekolah</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Warta & Informasi Sekolah (News / Announcements) -->
+    <section class="portal-news-section">
+        <div class="section-header-row">
+            <div>
+                <span class="section-eyebrow">WARTA & PENGUMUMAN</span>
+                <h2 class="section-title">Informasi & Kegiatan Terkini</h2>
+                <p class="section-subtitle">Seputar program akademik, workshop literasi digital, dan aktivasi layanan di SMAN 1 Gedeg.</p>
+            </div>
+            <a href="https://portal.sman1gedeg.sch.id" target="_blank" rel="noopener noreferrer" class="portal-news-all-btn">
+                <span>Portal Berita SMAGE</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </div>
+
+        <div class="news-cards-grid">
+            <!-- News 1: SinemaTIK -->
+            <div class="news-bento-card">
+                <div class="news-card-badge-row">
+                    <span class="news-category-badge badge-emerald">Kegiatan Unggulan</span>
+                    <span class="news-date-text">Tahun 2026</span>
+                </div>
+                <h3 class="news-card-title">Workshop SinemaTIK 2026: Kolaborasi Kreativitas & Problem Solving Digital</h3>
+                <p class="news-card-excerpt">
+                    Program eksplorasi multimedia, teknologi sinematografi digital, dan pemecahan masalah kreatif bagi siswa SMASAGE. Peserta mempraktikkan alur produksi konten edukatif modern.
+                </p>
+                <div class="news-card-footer">
+                    <span class="news-target-badge"><i class="fa fa-play-circle text-emerald mr-1"></i> Kelas Terdaftar di LMS</span>
+                </div>
+            </div>
+
+            <!-- News 2: Asesmen Kurikulum Merdeka -->
+            <div class="news-bento-card">
+                <div class="news-card-badge-row">
+                    <span class="news-category-badge badge-sky">Akademik & Asesmen</span>
+                    <span class="news-date-text">Fase E & Fase F</span>
+                </div>
+                <h3 class="news-card-title">Standarisasi Asesmen Berbasis Komputer (CBT) Kurikulum Merdeka</h3>
+                <p class="news-card-excerpt">
+                    Pemanfaatan sistem evaluasi digital terproteksi untuk mengukur capaian belajar secara adil, objektif, dan memberikan umpan balik langsung terhadap kemajuan siswa.
+                </p>
+                <div class="news-card-footer">
+                    <span class="news-target-badge"><i class="fa fa-check-square text-sky mr-1"></i> Standar Evaluasi Terintegrasi</span>
+                </div>
+            </div>
+
+            <!-- News 3: Integrasi SMAGE ID -->
+            <div class="news-bento-card">
+                <div class="news-card-badge-row">
+                    <span class="news-category-badge badge-amber">Layanan Siswa</span>
+                    <span class="news-date-text">Pusat Layanan</span>
+                </div>
+                <h3 class="news-card-title">Aktivasi & Bantuan Akun SMAGE ID untuk Akses Ekosistem Digital</h3>
+                <p class="news-card-excerpt">
+                    Panduan bagi peserta didik baru dan guru dalam mengaktifkan akun tunggal SMAGE ID untuk mengakses LMS Moodle, presensi harian, dan modul materi tanpa kendala.
+                </p>
+                <div class="news-card-footer">
+                    <a href="https://auth.sman1gedeg.sch.id" target="_blank" rel="noopener noreferrer" class="news-link-action">
+                        <span>Kelola Akun SMAGE ID</span>
+                        <i class="fa fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Divider & Transition into Available Courses -->
+    <div id="frontpage-available-courses" class="courses-divider-section">
+        <div class="courses-divider-inner">
+            <span class="divider-eyebrow">KATALOG PEMBELAJARAN</span>
+            <h2 class="divider-title">Daftar Kursus & Kelas Terbuka</h2>
+            <p class="divider-desc">Silakan pilih kelas di bawah ini untuk melihat silabus materi, atau masuk menggunakan akun Anda untuk memulai pembelajaran.</p>
+        </div>
+    </div>
+</div>

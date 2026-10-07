@@ -82,6 +82,11 @@ $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settin
 $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
 
+$isfrontpage = ($PAGE->pagelayout === 'frontpage');
+$isguestorloggedout = !isloggedin() || isguestuser();
+$showfrontpageportal = ($isfrontpage && $isguestorloggedout);
+$loginurl = get_login_url();
+
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
@@ -101,7 +106,10 @@ $templatecontext = [
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
     'overflow' => $overflow,
     'headercontent' => $headercontent,
-    'addblockbutton' => $addblockbutton
+    'addblockbutton' => $addblockbutton,
+    'isfrontpage' => $isfrontpage,
+    'showfrontpageportal' => $showfrontpageportal,
+    'loginurl' => $loginurl,
 ];
 
 echo $OUTPUT->render_from_template('theme_scholargate/drawers', $templatecontext);
