@@ -83,6 +83,17 @@ class bulk_sync_service {
                 $user->lastname = $lastname;
                 $needupdate = true;
             }
+            // Update email jika di ScholarGate sudah menggunakan email aktif / berbeda
+            if (!empty($email) && validate_email($email) && strtolower($user->email) !== strtolower($email)) {
+                $emailtaken = $DB->record_exists_select('user', 'email = :email AND id != :id AND deleted = 0', [
+                    'email' => $email,
+                    'id' => $user->id,
+                ]);
+                if (!$emailtaken) {
+                    $user->email = $email;
+                    $needupdate = true;
+                }
+            }
             if ($needupdate) {
                 $DB->update_record('user', $user);
             }
@@ -109,6 +120,9 @@ class bulk_sync_service {
 
         // Terapkan data member lengkap ke profil & role
         sync_service::apply_member_data_to_user($user, $member);
+
+        // Pastikan akun tertaut ke OAuth2 SMAGE ID
+        self::ensure_oauth2_linked_login((int)$userid, $username, $user->email);
 
         return $userid;
     }
@@ -361,6 +375,93 @@ class bulk_sync_service {
             'ok' => true,
             'stats' => $stats,
             'message' => "Sinkronisasi selesai! Guru: {$stats['guru']}, Tendik: {$stats['tendik']}, Siswa: {$stats['siswa']}."
+        ];
+    }
+
+    /**
+     * Ensure user has a linked login record in mdl_auth_oauth2_linked_login for SMAGE ID.
+     *
+     * @param int $userid
+     * @param string $username
+     * @param string $email
+     */
+    public static function ensure_oauth2_linked_login(int $userid, string $username, string $email): void {
+        global $DB;
+
+        if (empty($userid) || empty($username)) {
+            return;
+        }
+
+        // Cari active OAuth2 issuer (prioritaskan 'SMAGE ID' atau issuer pertama yang enabled)
+        $issuer = $DB->get_record('oauth2_issuer', ['name' => 'SMAGE ID', 'enabled' => 1]);
+        if (!$issuer) {
+            $issuer = $DB->get_record('oauth2_issuer', ['enabled' => 1], 'id, name', IGNORE_MULTIPLE);
+        }
+        if (!$issuer) {
+            return;
+        }
+
+        $link = $DB->get_record('auth_oauth2_linked_login', [
+            'issuerid' => $issuer->id,
+            'username' => $username,
+        ]);
+
+        if ($link) {
+            if ((int)$link->userid !== $userid || $link->email !== $email || !empty($link->confirmtoken)) {
+                $link->userid = $userid;
+                $link->email = $email;
+                $link->timemodified = time();
+                $link->confirmtoken = '';
+                $link->confirmtokenexpires = 0;
+                $DB->update_record('auth_oauth2_linked_login', $link);
+            }
+        } else {
+            $newlink = (object)[
+                'timecreated' => time(),
+                'timemodified' => time(),
+                'usermodified' => 0,
+                'userid' => $userid,
+                'issuerid' => $issuer->id,
+                'username' => $username,
+                'email' => $email,
+                'confirmtoken' => '',
+                'confirmtokenexpires' => 0,
+            ];
+            $DB->insert_record('auth_oauth2_linked_login', $newlink);
+        }
+    }
+
+    /**
+     * Bulk reconcile all existing Moodle users with the active OAuth2 issuer.
+     * Links any active student/teacher account that has auth=oauth2 or school profile data.
+     *
+     * @return array
+     */
+    public static function sync_all_existing_linked_logins(): array {
+        global $DB;
+
+        $issuer = $DB->get_record('oauth2_issuer', ['name' => 'SMAGE ID', 'enabled' => 1]);
+        if (!$issuer) {
+            $issuer = $DB->get_record('oauth2_issuer', ['enabled' => 1], 'id, name', IGNORE_MULTIPLE);
+        }
+        if (!$issuer) {
+            return ['ok' => false, 'message' => 'Tidak ditemukan OAuth2 issuer yang aktif.'];
+        }
+
+        // Ambil seluruh user non-guest dan non-admin yang aktif
+        $users = $DB->get_records_select('user', "deleted = 0 AND id > 2 AND username NOT IN ('guest', 'admin')", null, 'id ASC', 'id, username, email, auth');
+        $linked = 0;
+
+        foreach ($users as $u) {
+            self::ensure_oauth2_linked_login((int)$u->id, $u->username, $u->email);
+            $linked++;
+        }
+
+        return [
+            'ok' => true,
+            'linked' => $linked,
+            'issuer' => $issuer->name,
+            'message' => "Berhasil menautkan {$linked} akun pengguna ke OAuth2 issuer '{$issuer->name}'."
         ];
     }
 }

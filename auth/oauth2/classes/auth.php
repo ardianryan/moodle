@@ -410,7 +410,7 @@ class auth extends \auth_plugin_base {
      * @return void Either redirects or throws an exception
      */
     public function complete_login(client $client, $redirecturl) {
-        global $CFG, $SESSION, $PAGE;
+        global $DB, $CFG, $SESSION, $PAGE;
 
         $rawuserinfo = $client->get_raw_userinfo();
         $userinfo = $client->get_userinfo();
@@ -575,68 +575,116 @@ class auth extends \auth_plugin_base {
                 }
 
             } else {
-                // This is a new account.
+                // Check if user exists by username or idnumber (e.g. pre-synced account with placeholder or old email).
                 $exists = \core_user::get_user_by_username($userinfo['username']);
-                // Creating a new user?
+                if (!$exists && !empty($userinfo['idnumber'])) {
+                    $exists = $DB->get_record('user', ['idnumber' => $userinfo['idnumber'], 'deleted' => 0]);
+                }
+
                 if ($exists) {
-                    // Trigger login failed event.
-                    $failurereason = AUTH_LOGIN_FAILED;
-                    $event = \core\event\user_login_failed::create(['other' => ['username' => $userinfo['username'],
-                                                                                'reason' => $failurereason]]);
-                    $event->trigger();
+                    // Ensure we don't link a login for a suspended user.
+                    if (!empty($exists->suspended)) {
+                        $failurereason = AUTH_LOGIN_SUSPENDED;
+                        $event = \core\event\user_login_failed::create([
+                            'userid' => $exists->id,
+                            'other' => [
+                                'username' => $userinfo['username'],
+                                'reason' => $failurereason,
+                            ],
+                        ]);
+                        $event->trigger();
+                        $SESSION->loginerrormsg = get_string('invalidlogin');
+                        $client->log_out();
+                        redirect(new moodle_url('/login/index.php'));
+                    }
 
-                    // The username exists but the emails don't match. Refuse to continue.
-                    $errormsg = get_string('accountexists', 'auth_oauth2');
-                    $SESSION->loginerrormsg = $errormsg;
-                    $client->log_out();
-                    redirect(new moodle_url('/login/index.php'));
-                }
+                    // Seamless reconciliation for trusted Identity Provider:
+                    // If user was pre-created or synced with placeholder/old email, update email if not in use by another active account.
+                    if (!empty($userinfo['email']) && strtolower($exists->email) !== strtolower($userinfo['email'])) {
+                        $emailtaken = $DB->record_exists_select('user', 'email = :email AND id != :id AND deleted = 0', [
+                            'email' => $userinfo['email'],
+                            'id' => $exists->id,
+                        ]);
+                        if (!$emailtaken) {
+                            $DB->set_field('user', 'email', $userinfo['email'], ['id' => $exists->id]);
+                            $exists->email = $userinfo['email'];
+                        }
+                    }
 
-                if (email_is_not_allowed($userinfo['email'])) {
-                    // Trigger login failed event.
-                    $failurereason = AUTH_LOGIN_FAILED;
-                    $event = \core\event\user_login_failed::create(['other' => ['username' => $userinfo['username'],
-                                                                                'reason' => $failurereason]]);
-                    $event->trigger();
-                    // The username exists but the emails don't match. Refuse to continue.
-                    $reason = get_string('loginerror_invaliddomain', 'auth_oauth2');
-                    $errormsg = get_string('notloggedindebug', 'auth_oauth2', $reason);
-                    $SESSION->loginerrormsg = $errormsg;
-                    $client->log_out();
-                    redirect(new moodle_url('/login/index.php'));
-                }
+                    // Transition user auth method to oauth2 if currently manual or unassigned.
+                    if ($exists->auth !== $this->authtype) {
+                        $DB->set_field('user', 'auth', $this->authtype, ['id' => $exists->id]);
+                        $exists->auth = $this->authtype;
+                    }
 
-                if (!empty($CFG->authpreventaccountcreation)) {
-                    // Trigger login failed event.
-                    $failurereason = AUTH_LOGIN_UNAUTHORISED;
-                    $event = \core\event\user_login_failed::create(['other' => ['username' => $userinfo['username'],
-                                                                                'reason' => $failurereason]]);
-                    $event->trigger();
-                    // The username does not exist and settings prevent creating new accounts.
-                    $reason = get_string('loginerror_cannotcreateaccounts', 'auth_oauth2');
-                    $errormsg = get_string('notloggedindebug', 'auth_oauth2', $reason);
-                    $SESSION->loginerrormsg = $errormsg;
-                    $client->log_out();
-                    redirect(new moodle_url('/login/index.php'));
-                }
+                    // Link the external login safely in mdl_auth_oauth2_linked_login.
+                    $existinglink = $DB->get_record('auth_oauth2_linked_login', [
+                        'issuerid' => $issuer->get('id'),
+                        'username' => $userinfo['username'],
+                    ]);
+                    if ($existinglink) {
+                        $existinglink->userid = $exists->id;
+                        $existinglink->email = $userinfo['email'];
+                        $existinglink->timemodified = time();
+                        $existinglink->confirmtoken = '';
+                        $existinglink->confirmtokenexpires = 0;
+                        $DB->update_record('auth_oauth2_linked_login', $existinglink);
+                    } else {
+                        \auth_oauth2\api::link_login($userinfo, $issuer, $exists->id, true);
+                    }
 
-                if ($issuer->get('requireconfirmation')) {
-                    $PAGE->set_url('/auth/oauth2/confirm-account.php');
-                    $PAGE->set_context(context_system::instance());
-
-                    // Create a new (unconfirmed account) and send an email to confirm it.
-                    $user = \auth_oauth2\api::send_confirm_account_email($userinfo, $issuer);
-
-                    $this->update_picture($user);
-                    $emailconfirm = get_string('emailconfirm');
-                    $message = get_string('emailconfirmsent', '', $userinfo['email']);
-                    $this->print_confirm_required($emailconfirm, $message);
-                    exit();
+                    // Load custom profile fields and update user.
+                    require_once($CFG->dirroot . '/user/profile/lib.php');
+                    profile_load_custom_fields($exists);
+                    $userinfo = $this->update_user($userinfo, $exists);
+                    // Login will complete directly.
                 } else {
-                    // Create a new confirmed account.
-                    $newuser = \auth_oauth2\api::create_new_confirmed_account($userinfo, $issuer);
-                    $userinfo = get_complete_user_data('id', $newuser->id);
-                    // No redirect, we will complete this login.
+                    if (email_is_not_allowed($userinfo['email'])) {
+                        // Trigger login failed event.
+                        $failurereason = AUTH_LOGIN_FAILED;
+                        $event = \core\event\user_login_failed::create(['other' => ['username' => $userinfo['username'],
+                                                                                    'reason' => $failurereason]]);
+                        $event->trigger();
+                        // The username exists but the emails don't match. Refuse to continue.
+                        $reason = get_string('loginerror_invaliddomain', 'auth_oauth2');
+                        $errormsg = get_string('notloggedindebug', 'auth_oauth2', $reason);
+                        $SESSION->loginerrormsg = $errormsg;
+                        $client->log_out();
+                        redirect(new moodle_url('/login/index.php'));
+                    }
+
+                    if (!empty($CFG->authpreventaccountcreation)) {
+                        // Trigger login failed event.
+                        $failurereason = AUTH_LOGIN_UNAUTHORISED;
+                        $event = \core\event\user_login_failed::create(['other' => ['username' => $userinfo['username'],
+                                                                                    'reason' => $failurereason]]);
+                        $event->trigger();
+                        // The username does not exist and settings prevent creating new accounts.
+                        $reason = get_string('loginerror_cannotcreateaccounts', 'auth_oauth2');
+                        $errormsg = get_string('notloggedindebug', 'auth_oauth2', $reason);
+                        $SESSION->loginerrormsg = $errormsg;
+                        $client->log_out();
+                        redirect(new moodle_url('/login/index.php'));
+                    }
+
+                    if ($issuer->get('requireconfirmation')) {
+                        $PAGE->set_url('/auth/oauth2/confirm-account.php');
+                        $PAGE->set_context(context_system::instance());
+
+                        // Create a new (unconfirmed account) and send an email to confirm it.
+                        $user = \auth_oauth2\api::send_confirm_account_email($userinfo, $issuer);
+
+                        $this->update_picture($user);
+                        $emailconfirm = get_string('emailconfirm');
+                        $message = get_string('emailconfirmsent', '', $userinfo['email']);
+                        $this->print_confirm_required($emailconfirm, $message);
+                        exit();
+                    } else {
+                        // Create a new confirmed account.
+                        $newuser = \auth_oauth2\api::create_new_confirmed_account($userinfo, $issuer);
+                        $userinfo = get_complete_user_data('id', $newuser->id);
+                        // No redirect, we will complete this login.
+                    }
                 }
             }
         }

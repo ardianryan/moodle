@@ -51,6 +51,12 @@ if (strpos($action, 'ajax_') === 0) {
             exit;
         }
 
+        if ($action === 'ajax_sync_links') {
+            $res = \local_scholargate_sync\bulk_sync_service::sync_all_existing_linked_logins();
+            echo json_encode($res);
+            exit;
+        }
+
         if ($action === 'ajax_get_stats') {
             global $DB;
             $countguru = $DB->count_records_sql("

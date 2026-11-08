@@ -30,4 +30,9 @@ if (!empty($res['stats']['mutasi_alumni'])) {
     echo "  - Siswa Mutasi/Keluar (Disuspend): " . ($res['stats']['mutasi_alumni']['mutasi_count'] ?? 0) . "\n";
     echo "  - Alumni Dialihkan: " . ($res['stats']['mutasi_alumni']['alumni_count'] ?? 0) . "\n";
 }
+
+echo "Menautkan seluruh akun pengguna ke OAuth2 issuer...\n";
+$linkres = \local_scholargate_sync\bulk_sync_service::sync_all_existing_linked_logins();
+echo "  - " . ($linkres['message'] ?? 'Selesai menautkan.') . "\n";
+
 echo "=== Selesai ===\n";

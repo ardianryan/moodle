@@ -25,6 +25,12 @@ class sync_service {
             return true;
         }
 
+        // Never enforce or interfere with local accounts (e.g. manual, email, internal).
+        // Local accounts must always be allowed to log in without being checked against ScholarGate.
+        if ($user->auth !== 'oauth2') {
+            return true;
+        }
+
         // Only run if auto sync on login is enabled.
         $enabled = get_config('local_scholargate_sync', 'auto_sync_login');
         if ($enabled === '0') {
@@ -79,20 +85,10 @@ class sync_service {
             return true;
         }
 
-        // Rule 3: Reject unregistered user if not found locally or in ScholarGate directory.
-        if (is_siteadmin($user->id)) {
-            return true;
-        }
-
-        $registerurl = get_config('local_scholargate_sync', 'register_url') ?: 'https://auth.sman1gedeg.sch.id/help';
-        $message = get_string('user_not_registered', 'local_scholargate_sync', $registerurl);
-
-        // Batalkan login pengguna
-        require_logout();
-
-        \core\notification::error($message);
-        redirect($registerurl, $message, 5);
-        return false;
+        // Rule 3: Gracefully allow login for authenticated OAuth2 users even if directory lookup is pending.
+        // Never forcefully destroy session or redirect to help desk.
+        debugging("ScholarGate directory lookup yielded no member data for OAuth2 user ID: {$user->id} ({$user->username})", DEBUG_DEVELOPER);
+        return true;
     }
 
     /**
@@ -160,6 +156,9 @@ class sync_service {
                 self::suspend_mutated_user($user->id);
             }
         }
+
+        // 4. Pastikan linked_login OAuth2 terdaftar agar login SSO langsung instan tanpa mapping ulang
+        bulk_sync_service::ensure_oauth2_linked_login((int)$user->id, $user->username, $user->email);
     }
 
     /**
